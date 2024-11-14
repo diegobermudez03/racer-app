@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:racer_app/core/app_strings.dart';
-import 'package:racer_app/presentation/login/controller/auth_blocs.dart';
-import 'package:racer_app/presentation/login/controller/auth_states.dart';
+import 'package:racer_app/presentation/auth/controller/auth_blocs.dart';
+import 'package:racer_app/presentation/auth/controller/auth_states.dart';
+import 'package:racer_app/presentation/auth/pages/register_page.dart';
+import 'package:racer_app/presentation/feed/controller/feed_bloc.dart';
+import 'package:racer_app/presentation/feed/pages/feed_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:racer_app/dependency_injection.dart';
-import 'package:racer_app/presentation/login/controller/auth_blocs.dart';
-import 'package:racer_app/presentation/login/pages/login_page.dart';
+import 'package:racer_app/presentation/auth/controller/auth_blocs.dart';
+import 'package:racer_app/presentation/auth/pages/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
