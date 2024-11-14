@@ -1,10 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:racer_app/dependency_injection.dart';
+import 'package:racer_app/presentation/login/controller/auth_blocs.dart';
 import 'package:racer_app/presentation/login/pages/login_page.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  initDependencies();
   runApp(const MyApp());
 }
 
@@ -14,12 +19,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Racer app',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: LoginPage()
-    );
+        title: 'Racer app',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: BlocProvider(
+          create: (context) => GetIt.instance.get<LoginBloc>(),
+          child: LoginPage(),
+        ));
   }
 }
