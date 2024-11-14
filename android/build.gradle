@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Correct way to add the Google Services plugin classpath
+        classpath "com.google.gms:google-services:4.4.2" 
+    }
+}
+
 allprojects {
     repositories {
         google()
@@ -5,14 +16,18 @@ allprojects {
     }
 }
 
+// Setting the root project build directory
 rootProject.buildDir = "../build"
+
 subprojects {
+    // Set the build directory for subprojects
     project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(":app")
+
+    // Make sure app module is evaluated before others (usually not needed unless explicitly required)
+    evaluationDependsOn(":app")
 }
 
+// Register the "clean" task for deleting the build directory
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
