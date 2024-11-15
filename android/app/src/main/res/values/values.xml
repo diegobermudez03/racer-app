@@ -1,10 +1,10 @@
 <resources>
-    <string name="google_app_id">1:962111359544:android:ccc94e879f4f01a96fb4cd</string>
-    <string name="gcm_defaultSenderId">962111359544</string>
+    <string name="google_app_id">1:849459172149:android:dab1c3442dab2e9bb1b27c</string>
+    <string name="gcm_defaultSenderId">849459172149</string>
     <string name="default_web_client_id">YOUR_WEB_CLIENT_ID</string> <!-- Replace with actual value if available -->
     <string name="firebase_database_url">https://racer-fb.firebaseio.com</string> <!-- Add if you have Realtime Database configured -->
-    <string name="google_api_key">AIzaSyBckKoTUw6maIdI4i2hWrcmM_KumFslYQc</string>
-    <string name="google_crash_reporting_api_key">AIzaSyBckKoTUw6maIdI4i2hWrcmM_KumFslYQc</string>
+    <string name="google_api_key">AIzaSyDQTdJLnr4TgZqvLXjzkiiuoCTpFYK5iFM</string>
+    <string name="google_crash_reporting_api_key">AIzaSyDQTdJLnr4TgZqvLXjzkiiuoCTpFYK5iFM</string>
     <string name="project_id">racer-fb</string>
     <string name="storage_bucket">racer-fb.appspot.com</string>
 </resources>

@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "962111359544",
-    "project_id": "racer-fb",
-    "storage_bucket": "racer-fb.appspot.com"
+    "project_number": "849459172149",
+    "project_id": "taller3movil-f21bb",
+    "storage_bucket": "taller3movil-f21bb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:962111359544:android:ccc94e879f4f01a96fb4cd",
+        "mobilesdk_app_id": "1:849459172149:android:dab1c3442dab2e9bb1b27c",
         "android_client_info": {
-          "package_name": "com.racer"
+          "package_name": "com.compumovil.taller_3"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBckKoTUw6maIdI4i2hWrcmM_KumFslYQc"
+          "current_key": "AIzaSyDQTdJLnr4TgZqvLXjzkiiuoCTpFYK5iFM"
         }
       ],
       "services": {
