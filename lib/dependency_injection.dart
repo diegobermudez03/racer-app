@@ -1,12 +1,34 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:racer_app/presentation/auth/controller/auth_blocs.dart';
 import 'package:racer_app/repository/auth_repo.dart';
 
 final inst = GetIt.instance;
 
-void initDependencies(){
+Future<void> initDependencies() async{
+    //initialize firebase
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+
+    //initializing databases
+    final firebase = FirebaseAuth.instance;
+    final database = FirebaseDatabase.instanceFor(
+      app: Firebase.app(),
+      databaseURL: 'https://taller3movil-f21bb-default-rtdb.firebaseio.com/'
+    ).ref();
+    final storage = FirebaseStorage.instanceFor(
+      bucket: 'taller3movil-f21bb.appspot.com',
+    );
+
+
     //register repos
-    inst.registerLazySingleton<AuthRepo>(()=>AuthRepoFirebase());
+    inst.registerLazySingleton<AuthRepo>(()=>AuthRepoFirebase(
+      firebase,  database, storage
+    ));
 
     //register blocs
     inst.registerFactory<LoginBloc>(()=>LoginBloc(inst.get()));

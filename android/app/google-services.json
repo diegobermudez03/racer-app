@@ -2,7 +2,8 @@
   "project_info": {
     "project_number": "849459172149",
     "project_id": "taller3movil-f21bb",
-    "storage_bucket": "taller3movil-f21bb.appspot.com"
+    "storage_bucket": "taller3movil-f21bb.appspot.com",
+    "firebase_url": "https://taller3movil-f21bb-default-rtdb.firebaseio.com"
   },
   "client": [
     {

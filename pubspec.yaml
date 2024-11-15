@@ -38,6 +38,7 @@ dependencies:
   dartz: ^0.10.1
   image_picker: ^1.1.2
   permission_handler: ^11.3.1
+  firebase_database: ^11.1.6
 
 
   # The following adds the Cupertino Icons font to your application.

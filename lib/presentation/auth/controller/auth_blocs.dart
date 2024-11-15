@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:racer_app/presentation/auth/controller/auth_states.dart';
 import 'package:racer_app/repository/auth_repo.dart';
@@ -31,7 +33,16 @@ class RegisterBloc extends Cubit<RegisterState>{
     this.repo
   ):super(RegisterInitialState());
 
-  void register(String email, String password, String userName, )async{
+  void register(String email, String password, String userName, String fullName, int age, File profilePic)async{
+    await Future.delayed(Duration.zero);
+    emit(RegisterLoadingState());
+    final image = await profilePic.readAsBytes();
+    final response = await repo.register(email, password, userName, fullName, age, image);
 
+    if(response.value1 != null){
+      emit(RegisterFailureState(response.value1!));
+    }else{
+      emit(RegisterSuccessState());
+    }
   }
 }

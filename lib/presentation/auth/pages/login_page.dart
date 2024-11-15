@@ -44,13 +44,13 @@ class _LoginPageState extends State<LoginPage> {
               }
             },
             child: BlocBuilder<LoginBloc, LoginState>(
-                      builder: (context, state) {
-                        return switch(state){
-                          LoginLoadingState()=>Center(child: CircularProgressIndicator(),),
-                          LoginState()=>_printLoginPage(provider)
-                        };
-                      },
-                    ),
+              builder: (context, state) {
+                return switch(state){
+                  LoginLoadingState()=>Center(child: CircularProgressIndicator(),),
+                  LoginState()=>_printLoginPage(provider)
+                };
+              },
+            ),
           ),
         ),
       ),

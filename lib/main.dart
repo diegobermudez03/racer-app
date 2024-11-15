@@ -7,9 +7,7 @@ import 'package:racer_app/presentation/auth/controller/auth_blocs.dart';
 import 'package:racer_app/presentation/auth/pages/login_page.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  initDependencies();
+  await initDependencies();
   runApp(const MyApp());
 }
 
