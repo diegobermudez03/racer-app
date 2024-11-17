@@ -25,4 +25,5 @@ class AppStrings{
   static const noResults = "No hay resultados";
   static const seeUser = "Ver usuario";
   static const chatWithUser = "Chatear";
+  static const start = "Comenzar";
 }

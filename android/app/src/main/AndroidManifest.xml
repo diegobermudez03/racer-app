@@ -8,6 +8,7 @@ package="com.compumovil.taller_3">
         android:label="racer_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -35,6 +36,10 @@ package="com.compumovil.taller_3">
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCjonHDvRna94GF2Rjc9d7Uer4RlG8Isr8"/>
+            
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

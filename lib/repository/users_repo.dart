@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:racer_app/entities/message_entity.dart';
 import 'package:racer_app/entities/user_entity.dart';
 
 abstract class UsersRepo{

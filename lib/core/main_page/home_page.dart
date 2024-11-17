@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:racer_app/core/app_strings.dart';
+import 'package:racer_app/dependency_injection.dart' as depIn;
 import 'package:racer_app/presentation/feed/controller/feed_bloc.dart';
 import 'package:racer_app/presentation/feed/pages/feed_page.dart';
+import 'package:racer_app/presentation/run/pages/map_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -62,7 +64,7 @@ class _HomePageState extends State<HomePage> {
       case 1:
         return BlocProvider(
           create: (context) => GetIt.instance.get<FeedBloc>(),
-          child: FeedPage(),
+          child: MapPage(googleAPiKey: depIn.googleApiKey,),
         );
       case 2:
         return BlocProvider(

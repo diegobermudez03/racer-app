@@ -7,7 +7,7 @@ import 'package:racer_app/entities/user_entity.dart';
 import 'package:racer_app/presentation/search/controller/search_bloc.dart';
 import 'package:racer_app/presentation/search/controller/search_states.dart';
 import 'package:racer_app/presentation/search/widgets/user_tile.dart';
-import 'package:racer_app/presentation/utilities/custom_dialogs.dart';
+import 'package:racer_app/utilities/custom_dialogs.dart';
 
 class SearchPage extends StatefulWidget {
   @override
