@@ -63,7 +63,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget _printResult<T>(List<dartz.Tuple2<T, File>> results, BuildContext context){
+  Widget _printResult<T>(List<dartz.Tuple2<T, String>> results, BuildContext context){
     if(results.isEmpty){
       return const Center(
         child: Text(AppStrings.noResults),
@@ -74,7 +74,7 @@ class _SearchPageState extends State<SearchPage> {
         if(tple.value1 is UserEntity){
           return UserTile(
             user: tple.value1 as UserEntity, 
-            profilePicture: tple.value2, 
+            profilePictureUrl: tple.value2, 
             onSeeUserPressed: ()=>seeUser(context), 
             onChatPressed: ()=>seeChatWithUser(context)
           );

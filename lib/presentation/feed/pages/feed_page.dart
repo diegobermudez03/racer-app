@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:racer_app/core/app_strings.dart';
 import 'package:racer_app/core/custom_navigator.dart';
-import 'package:racer_app/presentation/chats/controller/chats_bloc.dart';
 import 'package:racer_app/presentation/feed/controller/feed_bloc.dart';
 import 'package:racer_app/presentation/feed/controller/feed_state.dart';
 

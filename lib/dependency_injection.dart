@@ -9,6 +9,7 @@ import 'package:racer_app/presentation/chats/pages/chats_page.dart';
 import 'package:racer_app/presentation/feed/controller/feed_bloc.dart';
 import 'package:racer_app/presentation/search/controller/search_bloc.dart';
 import 'package:racer_app/repository/auth_repo.dart';
+import 'package:racer_app/repository/general_repo.dart';
 
 final inst = GetIt.instance;
 
@@ -32,11 +33,14 @@ Future<void> initDependencies() async{
     inst.registerLazySingleton<AuthRepo>(()=>AuthRepoFirebase(
       firebase,  database, storage
     ));
+    inst.registerLazySingleton<GeneralRepo>(()=>GeneralRepoImpl(
+      database, storage
+    ));
 
     //register blocs
     inst.registerFactory<LoginBloc>(()=>LoginBloc(inst.get()));
     inst.registerFactory<RegisterBloc>(()=>RegisterBloc(inst.get()));
     inst.registerFactory<FeedBloc>(()=>FeedBloc());
     inst.registerFactory<ChatsPage>(()=>ChatsPage());
-    inst.registerFactory<SearchBloc>(()=>SearchBloc());
+    inst.registerFactory<SearchBloc>(()=>SearchBloc(inst.get()));
 }
