@@ -5,7 +5,7 @@ import 'package:racer_app/repository/chat_repo.dart';
 
 class ChatBloc extends Cubit<ChatState>{
 
-  final ChatRepo repo;
+  final ChatsRepo repo;
 
   ChatBloc(this.repo): super(ChatInitialState());
 

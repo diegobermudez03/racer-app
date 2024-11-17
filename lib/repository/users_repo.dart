@@ -23,9 +23,6 @@ class UsersRepoImpl implements UsersRepo{
   Future<Tuple2<String?, List<Tuple2<UserEntity, String>>?>> searchUsers(String text) async {
     try {
       final DataSnapshot snapshot = await database.child('users').get();
-      if (!snapshot.exists) {
-        return Tuple2("No users found", null);
-      }
       final Map<dynamic, dynamic>? usersMap = snapshot.value as Map<dynamic, dynamic>?;
       if (usersMap == null) {
         return Tuple2("No users found", null);

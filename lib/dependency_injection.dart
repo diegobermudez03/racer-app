@@ -22,7 +22,7 @@ Future<void> initDependencies() async{
     await Firebase.initializeApp();
 
     //initializing databases
-    final firebase = FirebaseAuth.instance;
+    final auth = FirebaseAuth.instance;
     final database = FirebaseDatabase.instanceFor(
       app: Firebase.app(),
       databaseURL: 'https://taller3movil-f21bb-default-rtdb.firebaseio.com/'
@@ -34,13 +34,13 @@ Future<void> initDependencies() async{
 
     //register repos
     inst.registerLazySingleton<AuthRepo>(()=>AuthRepoFirebase(
-      firebase,  database, storage
+      auth,  database, storage
     ));
     inst.registerLazySingleton<UsersRepo>(()=>UsersRepoImpl(
       database, storage
     ));
-    inst.registerLazySingleton<ChatRepo>(()=>ChatRepoImpl(
-      database, storage
+    inst.registerLazySingleton<ChatsRepo>(()=>ChatsRepoImpl(
+      database, auth
     ));
 
 
