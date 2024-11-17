@@ -24,6 +24,7 @@ class UserTile extends StatelessWidget{
       child: Row(
         children: [
           CachedNetworkImage(
+            width: 50,
             imageUrl: profilePictureUrl,
             placeholder: (context, url) => Icon(Icons.person),
           ),

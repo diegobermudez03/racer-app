@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:racer_app/entities/event_entity.dart';
 import 'package:racer_app/entities/user_entity.dart';

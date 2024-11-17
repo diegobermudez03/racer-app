@@ -35,7 +35,7 @@ class GeneralRepoImpl implements GeneralRepo{
       for (var entry in usersMap.entries) {
         final userId = entry.key as String;
         final userData = entry.value as Map<dynamic, dynamic>;
-        final userName = userData['userName'] as String? ?? '';
+        final userName = userData['username'] as String? ?? '';
 
         if (userName.toLowerCase().contains(text.toLowerCase())) {
           try {
