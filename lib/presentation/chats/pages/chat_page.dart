@@ -34,6 +34,7 @@ class _ChatPageState extends State<ChatPage> {
       appBar: _printAppBar(),
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             BlocBuilder<ChatBloc, ChatState>(builder: (context, state){
               final provider = BlocProvider.of<ChatBloc>(context);
@@ -49,22 +50,24 @@ class _ChatPageState extends State<ChatPage> {
             }),
             Row(
               children: [
-                TextField(
-                  controller: controller,
-                  onSubmitted: !sending && hasContent ? (val)=>_sendMessage(val, context) : null,
-                  onChanged: (val){
-                    if(val.isEmpty){
-                      setState(() {
-                        hasContent = false;
-                      });
-                    }else{
-                      if(!hasContent){
+                Expanded(
+                  child: TextField(
+                    controller: controller,
+                    onSubmitted: !sending && hasContent ? (val)=>_sendMessage(val, context) : null,
+                    onChanged: (val){
+                      if(val.isEmpty){
                         setState(() {
-                          hasContent = true;
+                          hasContent = false;
                         });
+                      }else{
+                        if(!hasContent){
+                          setState(() {
+                            hasContent = true;
+                          });
+                        }
                       }
-                    }
-                  },
+                    },
+                  ),
                 ),
                 IconButton(
                   onPressed: !sending && hasContent ? ()=>_sendMessage(controller.text, context) : null, 
@@ -89,6 +92,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void _sendMessage(String text, BuildContext context){
     sending = true;
+    controller.clear();
     BlocProvider.of<ChatBloc>(context).sendMessage(text);
   }
 

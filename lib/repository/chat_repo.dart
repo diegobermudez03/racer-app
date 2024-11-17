@@ -5,7 +5,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:racer_app/entities/message_entity.dart';
 
 abstract class ChatsRepo{
-  Future<Tuple2<String?, Stream<MessageEntity>?>> getChat(String? chatId, String? otherUsersId);
+  Future<Tuple2<String?, String?>> checkChat(String otherUsersId);
+  Future<Tuple2<String?, Stream<MessageEntity>?>> getChat(String chatId);
   Future<Tuple2<String?, void>> sendMessage(String chatId, String content);
 }
 
@@ -19,20 +20,47 @@ class ChatsRepoImpl implements ChatsRepo{
   );
 
   @override
-  Future<Tuple2<String?, Stream<MessageEntity>?>> getChat(String? chatId, String? otherUserId) async {
-    try{
+  Future<Tuple2<String?, String?>> checkChat(String otherUsersId) async{
+    try {
       final currentUserId = auth.currentUser!.uid;
 
-      if (chatId == null) {
-        DatabaseReference newChatRef = database.child('chats').push();
-        chatId = newChatRef.key;
+      try{
+        final snapshot = await database.child('chats').get();
 
-        await newChatRef.set({
-          'user1id': currentUserId,
-          'user2id': otherUserId,
-          'messages': {}
-        });
+        if (snapshot.exists) {
+          final chats = snapshot.value as Map<dynamic, dynamic>;
+          for (var entry in chats.entries) {
+            final chatData = entry.value as Map<dynamic, dynamic>;
+            if ((chatData['user1id'] == currentUserId && chatData['user2id'] == otherUsersId) ||
+                (chatData['user1id'] == otherUsersId && chatData['user2id'] == currentUserId)) {
+              return Tuple2(null, entry.key as String);
+            }
+          }
+        }
+      }catch(e){
+        print("errrrrooooooooooooooooooooooooooor");
+        print(e.toString());
       }
+
+      DatabaseReference newChatRef = database.child('chats').push();
+      final chatId = newChatRef.key!;
+      await newChatRef.set({
+        'user1id': currentUserId,
+        'user2id': otherUsersId,
+        'messages': {}
+      });
+
+      return Tuple2(null, chatId);
+    } catch (e) {
+      return Tuple2(e.toString(), null);
+    }
+  }
+
+
+  @override
+  Future<Tuple2<String?, Stream<MessageEntity>?>> getChat(String chatId) async {
+    try{
+      final currentUserId = auth.currentUser!.uid;
 
       DatabaseReference messagesRef = database.child('chats/$chatId/messages');
 
