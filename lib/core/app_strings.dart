@@ -1,4 +1,5 @@
 class AppStrings{
+  static const appName = "Racer";
   static const emailHint = "Ingresa tu email";
   static const passwordHint = "Ingresa tu contraseña";
   static const login = "Ingresar";
@@ -10,4 +11,9 @@ class AppStrings{
   static const userNameHint = "Ingrese un apodo";
   static const ageHint = "Ingrese su edad";
   static const successRegistering = "Se ha registrado correctamente";
+  static const profile = "Perfil";
+  static const run = "Correr";
+  static const feed = "Feed";
+  static const search = "Buscar";
+  static const chats = "Chats";
 }

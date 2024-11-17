@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:racer_app/core/app_strings.dart';
+import 'package:racer_app/core/custom_navigator.dart';
 import 'package:racer_app/presentation/auth/controller/auth_blocs.dart';
 import 'package:racer_app/presentation/auth/controller/auth_states.dart';
 import 'package:racer_app/presentation/auth/pages/register_page.dart';
-import 'package:racer_app/presentation/feed/controller/feed_bloc.dart';
-import 'package:racer_app/presentation/feed/pages/feed_page.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -33,14 +32,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),);
               }
               if(state is LoginSuccessState){
-                Navigator.of(context).pop();
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (con)=> BlocProvider(
-                      create: (c)=>GetIt.instance.get<FeedBloc>(),
-                      child: FeedPage(),
-                    )
-                  )
-                );
+                CustomNavigator.goToHomepage(context);
               }
             },
             child: BlocBuilder<LoginBloc, LoginState>(
@@ -72,15 +64,10 @@ class _LoginPageState extends State<LoginPage> {
         ),
         TextButton(
             onPressed: ableToLogin ? () => _loginHandler(provider) : null, child: Text(AppStrings.login)),
-        TextButton(onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (con)=> BlocProvider(
-                create: (c)=>GetIt.instance.get<RegisterBloc>(),
-                child: RegisterPage(),
-              )
-            )
-          );
-        }, child: Text(AppStrings.register)),
+        TextButton(
+          onPressed: () =>CustomNavigator.goToRegisterPage(context), 
+          child: Text(AppStrings.register)
+        ),
       ],
     );
   }
