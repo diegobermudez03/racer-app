@@ -43,6 +43,7 @@ class _ChatPageState extends State<ChatPage> {
               return switch(state){
                 ChatRetrievingState() => const Center(child: CircularProgressIndicator(),),
                 ChatRetrievedState(messages: final messages) => _printChats(messages),
+                CharFailureState(message: final mes)=> Center(child: Text(mes),),
                 ChatState() => SizedBox(),
               };
             }),
@@ -77,10 +78,12 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Column _printChats(List<MessageEntity> mesages){
+  Widget _printChats(List<MessageEntity> mesages){
     sending = false;
-    return Column(
-      children: mesages.map((m)=>MessageTile(message: m)).toList(),
+    return SingleChildScrollView(
+      child: Column(
+        children: mesages.map((m)=>MessageTile(message: m)).toList(),
+      ),
     );
   }
 

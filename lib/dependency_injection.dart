@@ -5,11 +5,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:racer_app/presentation/auth/controller/auth_blocs.dart';
+import 'package:racer_app/presentation/chats/controller/chat_bloc.dart';
+import 'package:racer_app/presentation/chats/controller/chats_bloc.dart';
 import 'package:racer_app/presentation/chats/pages/chats_page.dart';
 import 'package:racer_app/presentation/feed/controller/feed_bloc.dart';
 import 'package:racer_app/presentation/search/controller/search_bloc.dart';
 import 'package:racer_app/repository/auth_repo.dart';
-import 'package:racer_app/repository/general_repo.dart';
+import 'package:racer_app/repository/chat_repo.dart';
+import 'package:racer_app/repository/users_repo.dart';
 
 final inst = GetIt.instance;
 
@@ -33,14 +36,19 @@ Future<void> initDependencies() async{
     inst.registerLazySingleton<AuthRepo>(()=>AuthRepoFirebase(
       firebase,  database, storage
     ));
-    inst.registerLazySingleton<GeneralRepo>(()=>GeneralRepoImpl(
+    inst.registerLazySingleton<UsersRepo>(()=>UsersRepoImpl(
       database, storage
     ));
+    inst.registerLazySingleton<ChatRepo>(()=>ChatRepoImpl(
+      database, storage
+    ));
+
 
     //register blocs
     inst.registerFactory<LoginBloc>(()=>LoginBloc(inst.get()));
     inst.registerFactory<RegisterBloc>(()=>RegisterBloc(inst.get()));
     inst.registerFactory<FeedBloc>(()=>FeedBloc());
-    inst.registerFactory<ChatsPage>(()=>ChatsPage());
+    inst.registerFactory<ChatsBloc>(()=>ChatsBloc());
     inst.registerFactory<SearchBloc>(()=>SearchBloc(inst.get()));
+    inst.registerFactory<ChatBloc>(()=>ChatBloc(inst.get()));
 }

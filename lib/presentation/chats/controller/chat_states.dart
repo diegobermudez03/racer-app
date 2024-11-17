@@ -6,6 +6,11 @@ class ChatInitialState implements ChatState{}
 
 class ChatRetrievingState implements ChatState{}
 
+class CharFailureState implements ChatState{
+  String message;
+  CharFailureState(this.message);
+}
+
 class ChatRetrievedState implements ChatState{
   final List<MessageEntity> messages;
   final String? chatId;

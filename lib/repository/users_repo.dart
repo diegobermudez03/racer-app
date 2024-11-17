@@ -1,19 +1,20 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:racer_app/entities/message_entity.dart';
 import 'package:racer_app/entities/user_entity.dart';
 
-abstract class GeneralRepo{
+abstract class UsersRepo{
   Future<Tuple2<String?, List<Tuple2<UserEntity, String>>?>> searchUsers(String text);
 }
 
 
-class GeneralRepoImpl implements GeneralRepo{
+class UsersRepoImpl implements UsersRepo{
 
   final DatabaseReference database;
   final FirebaseStorage storage;
 
-  GeneralRepoImpl(
+  UsersRepoImpl(
     this.database,
     this.storage
   );

@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:racer_app/entities/event_entity.dart';
 import 'package:racer_app/entities/user_entity.dart';
 import 'package:racer_app/presentation/search/controller/search_states.dart';
-import 'package:racer_app/repository/general_repo.dart';
+import 'package:racer_app/repository/users_repo.dart';
 
 class SearchBloc extends Cubit<SearchState>{
 
-  final GeneralRepo repo;
+  final UsersRepo repo;
 
   SearchBloc(this.repo):super(SearchInitialState());
 
