@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:racer_app/core/app_strings.dart';
+import 'package:racer_app/core/custom_navigator.dart';
 import 'package:racer_app/entities/user_entity.dart';
 import 'package:racer_app/presentation/search/controller/search_bloc.dart';
 import 'package:racer_app/presentation/search/controller/search_states.dart';
@@ -72,11 +73,12 @@ class _SearchPageState extends State<SearchPage> {
     return Column(
       children: results.map((tple){
         if(tple.value1 is UserEntity){
+          final us = tple.value1 as UserEntity;
           return UserTile(
-            user: tple.value1 as UserEntity, 
+            user: us, 
             profilePictureUrl: tple.value2, 
             onSeeUserPressed: ()=>_seeUser(context), 
-            onChatPressed: ()=>_seeChatWithUser(context)
+            onChatPressed: ()=>_seeChatWithUser(context, us.id, tple.value2)
           );
         }
         return const SizedBox();
@@ -84,8 +86,8 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  void _seeChatWithUser(BuildContext context){
-
+  void _seeChatWithUser(BuildContext context, String userId, String profileUrl){
+    CustomNavigator.goToChatWithUser(context, null, userId, profileUrl);
   }
 
   void _seeUser(BuildContext context){

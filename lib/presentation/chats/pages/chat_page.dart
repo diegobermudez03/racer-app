@@ -1,20 +1,32 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:racer_app/entities/message_entity.dart';
 import 'package:racer_app/presentation/chats/controller/chat_bloc.dart';
 import 'package:racer_app/presentation/chats/controller/chat_states.dart';
+import 'package:racer_app/presentation/chats/widgets/message_tile.dart';
 
-class ChatPage extends StatelessWidget{
+class ChatPage extends StatefulWidget{
   
-  final controller = TextEditingController();
   final String? chatId;
   final String? otherUsersId;
+  final String otherUsersPicUrl;
 
-  ChatPage({
+  const ChatPage({
     super.key,
     this.chatId,
-    this.otherUsersId
+    this.otherUsersId,
+    required this.otherUsersPicUrl,
   });
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  final controller = TextEditingController();
+  bool sending = false;
+  bool hasContent = true;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +38,10 @@ class ChatPage extends StatelessWidget{
             BlocBuilder<ChatBloc, ChatState>(builder: (context, state){
               final provider = BlocProvider.of<ChatBloc>(context);
               if(state is ChatInitialState){
-                provider.getChat(chatId, otherUsersId);
+                provider.getChat(widget.chatId, widget.otherUsersId);
               }
               return switch(state){
-                ChatRetrievingState() => Center(child: CircularProgressIndicator(),),
+                ChatRetrievingState() => const Center(child: CircularProgressIndicator(),),
                 ChatRetrievedState(messages: final messages) => _printChats(messages),
                 ChatState() => SizedBox(),
               };
@@ -38,11 +50,24 @@ class ChatPage extends StatelessWidget{
               children: [
                 TextField(
                   controller: controller,
-                  onSubmitted: _sendMessage,
+                  onSubmitted: !sending && hasContent ? (val)=>_sendMessage(val, context) : null,
+                  onChanged: (val){
+                    if(val.isEmpty){
+                      setState(() {
+                        hasContent = false;
+                      });
+                    }else{
+                      if(!hasContent){
+                        setState(() {
+                          hasContent = true;
+                        });
+                      }
+                    }
+                  },
                 ),
                 IconButton(
-                  onPressed: ()=>_sendMessage(controller.text), 
-                  icon: Icon(Icons.send),
+                  onPressed: !sending && hasContent ? ()=>_sendMessage(controller.text, context) : null, 
+                  icon: const Icon(Icons.send),
                 )
               ],
             )
@@ -53,15 +78,23 @@ class ChatPage extends StatelessWidget{
   }
 
   Column _printChats(List<MessageEntity> mesages){
-    return Column();
+    sending = false;
+    return Column(
+      children: mesages.map((m)=>MessageTile(message: m)).toList(),
+    );
   }
-  
 
-  void _sendMessage(String text){
-
+  void _sendMessage(String text, BuildContext context){
+    sending = true;
+    BlocProvider.of<ChatBloc>(context).sendMessage(text);
   }
 
   AppBar _printAppBar(){
-    return AppBar();
+    return AppBar(
+      leading: CachedNetworkImage(
+        width: 50,
+        imageUrl: widget.otherUsersPicUrl
+      ),
+    );
   }
 }

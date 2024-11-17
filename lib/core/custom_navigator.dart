@@ -53,7 +53,7 @@ class CustomNavigator{
   }
 
   //ONLY one, id or otherUserId must be null, id is if the page is openned from the chats page, and otherUserId if its from the search page
-  static void goToChatWithUser(BuildContext context, String? id, String? otherUserId){
+  static void goToChatWithUser(BuildContext context, String? id, String? otherUserId, String otherUsersPic){
 
   }
 }

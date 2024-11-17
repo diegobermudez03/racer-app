@@ -7,4 +7,9 @@ class ChatBloc extends Cubit<ChatState>{
 
   void getChat(String? chatId,String? otherUsersId)async{
   }
+
+
+  void sendMessage(String content)async{
+    
+  }
 }
