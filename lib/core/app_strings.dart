@@ -16,4 +16,10 @@ class AppStrings{
   static const feed = "Feed";
   static const search = "Buscar";
   static const chats = "Chats";
+  static const users = "Usuarios";
+  static const events = "Eventos";
+  static const searchForSomeone  ="Busque a alguien";
+  static const searchForEvent = "Busque un evento";
+  static const heightHint = "Ingrese su altura";
+  static const weightHint = "Ingrese su peso";
 }

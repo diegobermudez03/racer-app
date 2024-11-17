@@ -33,11 +33,11 @@ class RegisterBloc extends Cubit<RegisterState>{
     this.repo
   ):super(RegisterInitialState());
 
-  void register(String email, String password, String userName, String fullName, int age, File profilePic)async{
+  void register(String email, String password, String userName, String fullName, int age, double height, double weight, File profilePic)async{
     await Future.delayed(Duration.zero);
     emit(RegisterLoadingState());
     final image = await profilePic.readAsBytes();
-    final response = await repo.register(email, password, userName, fullName, age, image);
+    final response = await repo.register(email, password, userName, fullName, age, height, weight, image);
 
     if(response.value1 != null){
       emit(RegisterFailureState(response.value1!));

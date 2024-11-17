@@ -21,6 +21,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final fullNameController = TextEditingController();
   final ageController = TextEditingController();
   final userNameController = TextEditingController();
+  final heightController = TextEditingController();
+  final weightController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +92,16 @@ class _RegisterPageState extends State<RegisterPage> {
           onChanged: (_) => _checkFields(),
           controller: ageController,
         ),
+        TextField(
+          decoration: InputDecoration.collapsed(hintText: AppStrings.heightHint),
+          onChanged: (_) => _checkFields(),
+          controller: heightController,
+        ),
+        TextField(
+          decoration: InputDecoration.collapsed(hintText: AppStrings.weightHint),
+          onChanged: (_) => _checkFields(),
+          controller: weightController,
+        ),
         ElevatedButton(onPressed: readyToRegister? () => _registerCallback(provider): null, child: Text(AppStrings.register))
       ],
     );
@@ -97,7 +109,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void _registerCallback(RegisterBloc provider) {
     provider.register(emailController.text, passwordController.text, userNameController.text, fullNameController.text,
-        int.parse(ageController.text), _image!);
+        int.parse(ageController.text), 
+        double.parse(heightController.text), 
+        double.parse(weightController.text), 
+        _image!);
   }
 
   void _checkFields() {
@@ -106,6 +121,8 @@ class _RegisterPageState extends State<RegisterPage> {
         userNameController.text.isEmpty ||
         fullNameController.text.isEmpty ||
         ageController.text.isEmpty ||
+        heightController.text.isEmpty ||
+        weightController.text.isEmpty ||
         _image == null) {
       if (readyToRegister) {
         setState(() {
@@ -126,6 +143,7 @@ class _RegisterPageState extends State<RegisterPage> {
         _image = image;
       });
     }
+    _checkFields();
   }
 
   void _cameraHandler(BuildContext context) async {
@@ -135,5 +153,6 @@ class _RegisterPageState extends State<RegisterPage> {
         _image = image;
       });
     }
+    _checkFields();
   }
 }

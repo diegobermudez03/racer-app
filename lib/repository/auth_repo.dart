@@ -8,7 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 abstract class AuthRepo{
   Future<Tuple2<String?, bool?>> login(String email, String password);
-  Future<Tuple2<String?, bool?>> register(String email, String password, String userName, String fullName, int age, Uint8List profilePic);
+  Future<Tuple2<String?, bool?>> register(String email, String password, String userName, String fullName, int age, double height, double weight, Uint8List profilePic) ;
 }
 
 
@@ -35,7 +35,7 @@ class AuthRepoFirebase implements AuthRepo{
   }
   
   @override
-  Future<Tuple2<String?, bool?>> register(String email, String password, String userName, String fullName, int age, Uint8List profilePic) async {
+  Future<Tuple2<String?, bool?>> register(String email, String password, String userName, String fullName, int age, double height, double weight, Uint8List profilePic) async {
     try {
       final UserCredential res = await firebase.createUserWithEmailAndPassword(
         email: email,
@@ -48,6 +48,8 @@ class AuthRepoFirebase implements AuthRepo{
         'username': userName,
         'fullname': fullName,
         'age': age,
+        'weight' : weight,
+        'height' : height
       });
 
       final Reference profilePicRef = storage.ref().child('users/$userId/profile');
