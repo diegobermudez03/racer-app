@@ -22,4 +22,7 @@ class AppStrings{
   static const searchForEvent = "Busque un evento";
   static const heightHint = "Ingrese su altura";
   static const weightHint = "Ingrese su peso";
+  static const noResults = "No hay resultados";
+  static const seeUser = "Ver usuario";
+  static const chatWithUser = "Chatear";
 }

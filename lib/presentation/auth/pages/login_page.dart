@@ -5,6 +5,7 @@ import 'package:racer_app/core/custom_navigator.dart';
 import 'package:racer_app/presentation/auth/controller/auth_blocs.dart';
 import 'package:racer_app/presentation/auth/controller/auth_states.dart';
 import 'package:racer_app/presentation/auth/pages/register_page.dart';
+import 'package:racer_app/presentation/utilities/custom_dialogs.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -27,9 +28,7 @@ class _LoginPageState extends State<LoginPage> {
           child: BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
               if(state is LoginFailureState){
-                showDialog(context: context, builder: (context) => AlertDialog(
-                  content: Text(state.message),
-                ),);
+                CustomDialogs.showFailureDialog(context, state.message);
               }
               if(state is LoginSuccessState){
                 CustomNavigator.goToHomepage(context);

@@ -1,11 +1,16 @@
+import 'dart:io';
+
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:racer_app/core/app_strings.dart';
+import 'package:racer_app/entities/user_entity.dart';
 import 'package:racer_app/presentation/search/controller/search_bloc.dart';
 import 'package:racer_app/presentation/search/controller/search_states.dart';
+import 'package:racer_app/presentation/search/widgets/user_tile.dart';
+import 'package:racer_app/presentation/utilities/custom_dialogs.dart';
 
-class SearchPage extends StatefulWidget{
-
+class SearchPage extends StatefulWidget {
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
@@ -19,50 +24,89 @@ class _SearchPageState extends State<SearchPage> {
       children: [
         _printSearchBar(context),
         ToggleButtons(
-          children: [
-            Padding( 
-              padding: EdgeInsets.all(8),
-              child: Text(AppStrings.users),
-            ),
-            Padding( 
-              padding: EdgeInsets.all(8),
-              child: Text(AppStrings.events),
-            ),
-          ], 
           isSelected: isSelected,
-          onPressed: (index){
+          onPressed: (index) {
             setState(() {
               isSelected[index] = true;
-              int other = index == 0? 1:0;
+              int other = index == 0 ? 1 : 0;
               isSelected[other] = false;
               _resetSearch(context);
             });
           },
+          children:const [
+            Padding(
+              padding: EdgeInsets.all(8),
+              child: Text(AppStrings.users),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8),
+              child: Text(AppStrings.events),
+            ),
+          ],
         ),
-
-        BlocBuilder<SearchBloc, SearchState>(builder: (context, state){
-          return SizedBox();
-        })
+        BlocListener<SearchBloc, SearchState>(
+          listener: (context, state) {
+            if(state is SearchFailureState){
+              CustomDialogs.showFailureDialog(context, state.message);
+            }
+          },
+          child: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+            return switch(state){
+              SearchUsersSuccess(users: final usrs)=> _printResult(usrs, context),
+              SearchEventsSuccess(events: final evnts) =>  _printResult(evnts, context),
+              SearchLoadingState() => const Center(child: CircularProgressIndicator()),
+              SearchState() => const SizedBox(),
+            };
+          }),
+        )
       ],
     );
   }
 
-  void _resetSearch(BuildContext context){
-    
+  Widget _printResult<T>(List<dartz.Tuple2<T, File>> results, BuildContext context){
+    if(results.isEmpty){
+      return const Center(
+        child: Text(AppStrings.noResults),
+      );
+    }
+    return Column(
+      children: results.map((tple){
+        if(tple.value1 is UserEntity){
+          return UserTile(
+            user: tple.value1 as UserEntity, 
+            profilePicture: tple.value2, 
+            onSeeUserPressed: ()=>seeUser(context), 
+            onChatPressed: ()=>seeChatWithUser(context)
+          );
+        }
+        return const SizedBox();
+      }).toList(),
+    );
   }
 
-  void _handleSearch(String text, BuildContext context){
+  void seeChatWithUser(BuildContext context){
 
   }
 
+  void seeUser(BuildContext context){
 
-  Widget _printSearchBar(BuildContext context){
+  }
+
+  void _resetSearch(BuildContext context) {
+    BlocProvider.of<SearchBloc>(context).resetSearch();
+  }
+
+  void _handleSearch(String text, BuildContext context) {
+    BlocProvider.of<SearchBloc>(context).searchFor(isSelected[0], text);
+  }
+
+  Widget _printSearchBar(BuildContext context) {
     return Container(
       width: double.infinity,
       height: 50,
-      padding: EdgeInsets.all(15),
-      child: TextField( 
-        decoration: InputDecoration(hintText: AppStrings.searchForSomeone),
+      padding: const EdgeInsets.all(15),
+      child: TextField(
+        decoration: const InputDecoration(hintText: AppStrings.searchForSomeone),
         onSubmitted: (value) => _handleSearch(value, context),
       ),
     );

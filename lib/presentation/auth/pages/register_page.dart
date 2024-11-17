@@ -7,6 +7,7 @@ import 'package:racer_app/presentation/auth/controller/auth_blocs.dart';
 import 'package:racer_app/presentation/auth/controller/auth_states.dart';
 import 'package:racer_app/presentation/shared/camera_handler.dart';
 import 'package:racer_app/presentation/shared/gallery_handler.dart';
+import 'package:racer_app/presentation/utilities/custom_dialogs.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -34,9 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
         body: BlocListener<RegisterBloc, RegisterState>(
           listener: (context, state) {
             if(state is RegisterFailureState){
-              showDialog(context: context, builder: (context) => AlertDialog(
-                  content: Text(state.message),
-              ),);
+              CustomDialogs.showFailureDialog(context, state.message);
             }
             if(state is RegisterSuccessState){
               CustomNavigator.goToHomepage(context);
