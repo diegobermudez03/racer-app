@@ -17,6 +17,7 @@ abstract class MapRepo{
     double avgSpeed,
     double totalDistance,
     double calories,
+    int seconds,
     List<double> distances
    );
 
@@ -43,10 +44,10 @@ class MapRepoImpl implements MapRepo{
           final polylinePoints = route['overview_polyline']['points'];
           return Tuple2(null, polylinePoints);
         } else {
-          return Tuple2('error', null);
+          return const Tuple2('error', null);
         }
       } else {
-       return Tuple2('error', null);
+       return const Tuple2('error', null);
       }
     }catch(e){
       return Tuple2(e.toString(), null);
@@ -59,9 +60,8 @@ class MapRepoImpl implements MapRepo{
     DateTime endingDate, double endingLat, double endingLon, 
     Uint8List initialPic, Uint8List endingPic,
     double avgSpeed, double totalDistance, 
-    double calories, List<double> distances) 
+    double calories, int seconds, List<double> distances) 
   {
-    // TODO: implement saveRoute
     throw UnimplementedError();
   }
   

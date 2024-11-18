@@ -21,3 +21,12 @@ class MapRouteInProgress implements MapState{
 
   MapRouteInProgress(this.startingDate, this.initialLat, this.initiaLon, this.initialPic);
 }
+
+class MapRouteEnded implements MapState{}
+
+
+class MapRouteFailure implements MapState{
+  final String message;
+
+  MapRouteFailure(this.message);
+}

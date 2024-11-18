@@ -30,4 +30,5 @@ class AppStrings{
   static const unableToTakePictureCantEndRoute = "No se pudo tomar la foto, no es posible terminar la ruta";
   static const inProgress = "En progreso";
   static const haventReachedDestiny = "No has llegado a la meta";
+  static const routeSavedAndPublished = "La ruta ha sido guardada y publicada";
 }

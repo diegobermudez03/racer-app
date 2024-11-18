@@ -9,4 +9,13 @@ class CustomDialogs{
       ),
     );
   }
+
+  static void showSuccessDialog(BuildContext context, String text){
+    showDialog(
+      context: context, 
+      builder: (context) => AlertDialog(
+        content: Text(text),
+      ),
+    );
+  }
 }

@@ -29,15 +29,16 @@ class _MapPageState extends State<MapPage> {
   Marker? destination;
   bool _routeInProgress = false;
 
-
   Future<void> _getUserLocation(MapBloc provider) async {
     final userLocation = await _location.getLocation();
     _location.onLocationChanged.listen((newLoc) {
-       _currentUserLocation = LatLng(newLoc.latitude!, newLoc.longitude!);
-       _mapController.animateCamera(CameraUpdate.newLatLng(_currentUserLocation),);
-       if(_routeInProgress){
+      _currentUserLocation = LatLng(newLoc.latitude!, newLoc.longitude!);
+      _mapController.animateCamera(
+        CameraUpdate.newLatLng(_currentUserLocation),
+      );
+      if (_routeInProgress) {
         provider.updateToProgress(newLoc.latitude!, newLoc.longitude!);
-       }
+      }
     });
     setState(() {
       _currentUserLocation = LatLng(userLocation.latitude!, userLocation.longitude!);
@@ -52,88 +53,110 @@ class _MapPageState extends State<MapPage> {
     final provider = BlocProvider.of<MapBloc>(context);
     return Scaffold(
       appBar: AppBar(title: Text(AppStrings.run)),
-      body: Column(
-        children: [
-          !_routeInProgress ? GooglePlacesAutoCompleteTextFormField(
-              textEditingController: searchController,
-              googleAPIKey: widget.googleAPiKey,
-              countries: ['col'],
-              isLatLngRequired: true,
-              getPlaceDetailWithLatLng: (prediction) {
-                _selectDestintation(LatLng(double.parse(prediction.lat!), double.parse(prediction.lng!)), context);
-              },
-              itmClick: (prediction) {
-                searchController.text = prediction.description ?? '';
-                searchController.selection =
-                    TextSelection.fromPosition(TextPosition(offset: prediction.description?.length ?? 0));
-              }) : Text(AppStrings.inProgress),
-          Expanded(
-            child: BlocBuilder<MapBloc, MapState>(
-              builder: (context, state) {
-                final Set<Polyline> routes =  {};
-                if(state is MapRouteRetrieved){
-                  final Polyline route =  Polyline(
-                    polylineId: PolylineId('1'),
-                    color: Colors.red[200]!,
-                    width: 5,
-                    points: _decodePolyline(state.route)
+      body: BlocListener<MapBloc, MapState>(
+        listener: (context, state) {
+          if(state is MapRouteEnded){
+            CustomDialogs.showSuccessDialog(context, AppStrings.routeSavedAndPublished);
+          }
+          if(state is MapRouteFailure){
+            CustomDialogs.showFailureDialog(context, state.message);
+          }
+        },
+        child: Column(
+          children: [
+            !_routeInProgress
+                ? GooglePlacesAutoCompleteTextFormField(
+                    textEditingController: searchController,
+                    googleAPIKey: widget.googleAPiKey,
+                    countries: ['col'],
+                    isLatLngRequired: true,
+                    getPlaceDetailWithLatLng: (prediction) {
+                      _selectDestintation(
+                          LatLng(double.parse(prediction.lat!), double.parse(prediction.lng!)), context);
+                    },
+                    itmClick: (prediction) {
+                      searchController.text = prediction.description ?? '';
+                      searchController.selection =
+                          TextSelection.fromPosition(TextPosition(offset: prediction.description?.length ?? 0));
+                    })
+                : Text(AppStrings.inProgress),
+            Expanded(
+              child: BlocBuilder<MapBloc, MapState>(
+                builder: (context, state) {
+                  final Set<Polyline> routes = {};
+                  if (state is MapRouteRetrieved) {
+                    final Polyline route = Polyline(
+                        polylineId: PolylineId('1'),
+                        color: Colors.red[200]!,
+                        width: 5,
+                        points: _decodePolyline(state.route));
+                    routes.add(route);
+                  } else if (route != null) {
+                    routes.add(route!);
+                  }
+                  if(state is MapRouteFailure || state is MapRouteEnded){
+                    routes.clear();
+                    _markers.clear();
+                    destination = null;
+                  }
+                  return GoogleMap(
+                    onMapCreated: (controller) {
+                      _mapController = controller;
+                      _getUserLocation(provider);
+                    },
+                    initialCameraPosition: CameraPosition(
+                      target: _currentUserLocation,
+                      zoom: 14,
+                    ),
+                    myLocationEnabled: true,
+                    markers: _markers,
+                    polylines: routes,
+                    onLongPress: !_routeInProgress ? (loc) => _selectDestintation(loc, context) : null,
                   );
-                  routes.add(route);
-                }else if(route != null){
-                  routes.add(route!);
-                }
-                return GoogleMap(
-                  onMapCreated: (controller) {
-                    _mapController = controller;
-                    _getUserLocation(provider);
-                  },
-                  initialCameraPosition: CameraPosition(
-                    target: _currentUserLocation,
-                    zoom: 14,
-                  ),
-                  myLocationEnabled: true,
-                  markers: _markers,
-                  polylines: routes,
-                  onLongPress: !_routeInProgress ? (loc) => _selectDestintation(loc, context) : null,
-                );
-              },
+                },
+              ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: _routeInProgress ? (()=>_endRoute(context)) :  ( destination != null ? ()=> _startRunning(context) : null),
-            child: Text(AppStrings.start),
-          ),
-        ],
+            ElevatedButton(
+              onPressed: _routeInProgress
+                  ? (() => _endRoute(context))
+                  : (destination != null ? () => _startRunning(context) : null),
+              child: Text(AppStrings.start),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  void _endRoute(BuildContext context)async{
-    final distance = Geolocator.distanceBetween(_currentUserLocation.latitude, _currentUserLocation.longitude, destination!.position.latitude, destination!.position.longitude);
+  void _endRoute(BuildContext context) async {
+    final distance = Geolocator.distanceBetween(_currentUserLocation.latitude, _currentUserLocation.longitude,
+        destination!.position.latitude, destination!.position.longitude);
     //if its more than 50 meters, like the diameter, then its not able to end
-    if(distance > 50){
+    if (distance > 50) {
       CustomDialogs.showFailureDialog(context, AppStrings.haventReachedDestiny);
       return;
     }
     final endigTime = DateTime.now();
     final endingPicture = await CameraHandler.takePicture(context);
-    if(endingPicture == null){
+    if (endingPicture == null) {
       CustomDialogs.showFailureDialog(context, AppStrings.unableToTakePictureCantEndRoute);
       return;
     }
-    BlocProvider.of<MapBloc>(context).endRoute(endingPicture, _currentUserLocation.latitude, _currentUserLocation.longitude, endigTime);
+    BlocProvider.of<MapBloc>(context)
+        .endRoute(endingPicture, _currentUserLocation.latitude, _currentUserLocation.longitude, endigTime);
   }
 
-  void _startRunning(BuildContext context) async{
+  void _startRunning(BuildContext context) async {
     final initialPicture = await CameraHandler.takePicture(context);
-    if(initialPicture == null){
+    if (initialPicture == null) {
       CustomDialogs.showFailureDialog(context, AppStrings.unableToTakePictureCantStartRoute);
       return;
     }
     setState(() {
-       _routeInProgress = true;
+      _routeInProgress = true;
     });
-    BlocProvider.of<MapBloc>(context).startRoute(initialPicture, _currentUserLocation.latitude, _currentUserLocation.longitude);
+    BlocProvider.of<MapBloc>(context)
+        .startRoute(initialPicture, _currentUserLocation.latitude, _currentUserLocation.longitude);
   }
 
   void _selectDestintation(LatLng position, BuildContext context) {
@@ -143,8 +166,7 @@ class _MapPageState extends State<MapPage> {
     } else {
       destination = Marker(markerId: destination!.markerId, position: position, icon: BitmapDescriptor.defaultMarker);
     }
-    setState(() {
-    });
+    setState(() {});
     _markers.add(destination!);
     _mapController.animateCamera(
       CameraUpdate.newLatLng(position),
