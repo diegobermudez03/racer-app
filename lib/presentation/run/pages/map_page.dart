@@ -85,12 +85,12 @@ class _MapPageState extends State<MapPage> {
                 builder: (context, state) {
                   final Set<Polyline> routes = {};
                   if (state is MapRouteRetrieved) {
-                    final Polyline route = Polyline(
+                    route = Polyline(
                         polylineId: PolylineId('1'),
                         color: Colors.red[200]!,
                         width: 5,
                         points: _decodePolyline(state.route));
-                    routes.add(route);
+                    routes.add(route!);
                   } else if (route != null) {
                     routes.add(route!);
                   }
@@ -98,6 +98,7 @@ class _MapPageState extends State<MapPage> {
                     routes.clear();
                     _markers.clear();
                     destination = null;
+                    _routeInProgress = false;
                   }
                   return GoogleMap(
                     onMapCreated: (controller) {
@@ -120,7 +121,7 @@ class _MapPageState extends State<MapPage> {
               onPressed: _routeInProgress
                   ? (() => _endRoute(context))
                   : (destination != null ? () => _startRunning(context) : null),
-              child: Text(AppStrings.start),
+              child: Text( !_routeInProgress ? AppStrings.start : AppStrings.endRoute),
             ),
           ],
         ),
@@ -132,6 +133,8 @@ class _MapPageState extends State<MapPage> {
     final distance = Geolocator.distanceBetween(_currentUserLocation.latitude, _currentUserLocation.longitude,
         destination!.position.latitude, destination!.position.longitude);
     //if its more than 50 meters, like the diameter, then its not able to end
+    print("holaaaaaaaaa");
+    print(distance);
     if (distance > 50) {
       CustomDialogs.showFailureDialog(context, AppStrings.haventReachedDestiny);
       return;

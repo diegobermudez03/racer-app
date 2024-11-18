@@ -45,7 +45,7 @@ Future<void> initDependencies() async{
       database, auth
     ));
     inst.registerLazySingleton<MapRepo>(()=>MapRepoImpl(
-      googleApiKey
+      database, auth, storage,googleApiKey
     ));
 
 

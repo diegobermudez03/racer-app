@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 
 abstract class MapRepo{
@@ -27,8 +30,16 @@ abstract class MapRepo{
 class MapRepoImpl implements MapRepo{
   final routesUrl = 'https://maps.googleapis.com/maps/api/directions/json';
   final String apiKey;
+  final DatabaseReference database;
+  final FirebaseAuth auth;
+  final FirebaseStorage storage;
 
-  MapRepoImpl(this.apiKey);
+  MapRepoImpl(
+    this.database,
+    this.auth,
+    this.storage,
+    this.apiKey
+  );
 
   @override
   Future<Tuple2<String?, String?>> searchRoute(double lat1, double lon1, double lat2, double lon2) async{
@@ -60,9 +71,43 @@ class MapRepoImpl implements MapRepo{
     DateTime endingDate, double endingLat, double endingLon, 
     Uint8List initialPic, Uint8List endingPic,
     double avgSpeed, double totalDistance, 
-    double calories, int seconds, List<double> distances) 
+    double calories, int seconds, List<double> distances) async
   {
-    throw UnimplementedError();
+    try{
+      final userId = auth.currentUser!.uid;
+      DatabaseReference newRouteRef = database.child('routes').push();
+      final String routeId = newRouteRef.key!;
+
+      final String initialDateString = initialDate.toIso8601String();
+      final String endingDateString = endingDate.toIso8601String();
+
+      final String initialPicPath = 'routes/$routeId/initialpic';
+      final String endingPicPath = 'routes/$routeId/endingpic';
+
+      await storage.ref(initialPicPath).putData(initialPic);
+
+      await storage.ref(endingPicPath).putData(endingPic);
+
+      final Map<String, dynamic> routeData = {
+        'initialLat': initialLat,
+        'initialLon': initialLon,
+        'initialDate': initialDateString,
+        'endingDate': endingDateString,
+        'endingLat': endingLat,
+        'endingLon': endingLon,
+        'avgSpeed': avgSpeed,
+        'totalDistance': totalDistance,
+        'calories': calories,
+        'seconds': seconds,
+        'distances': distances,
+        'publisher': userId,
+      };
+      await newRouteRef.set(routeData);
+      
+      return Tuple2(null, null);
+    }catch(e){
+      return Tuple2(e.toString(), null);
+    }
   }
   
 }
