@@ -8,6 +8,7 @@ import 'package:racer_app/presentation/auth/controller/auth_blocs.dart';
 import 'package:racer_app/presentation/chats/controller/chat_bloc.dart';
 import 'package:racer_app/presentation/chats/controller/chats_bloc.dart';
 import 'package:racer_app/presentation/feed/controller/feed_bloc.dart';
+import 'package:racer_app/presentation/run/controller/map_bloc.dart';
 import 'package:racer_app/presentation/search/controller/search_bloc.dart';
 import 'package:racer_app/repository/auth_repo.dart';
 import 'package:racer_app/repository/chat_repo.dart';
@@ -55,4 +56,5 @@ Future<void> initDependencies() async{
     inst.registerFactory<ChatsBloc>(()=>ChatsBloc());
     inst.registerFactory<SearchBloc>(()=>SearchBloc(inst.get()));
     inst.registerFactory<ChatBloc>(()=>ChatBloc(inst.get()));
+    inst.registerFactory<MapBloc>(()=>MapBloc(inst.get()));
 }

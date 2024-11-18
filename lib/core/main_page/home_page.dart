@@ -5,6 +5,7 @@ import 'package:racer_app/core/app_strings.dart';
 import 'package:racer_app/dependency_injection.dart' as depIn;
 import 'package:racer_app/presentation/feed/controller/feed_bloc.dart';
 import 'package:racer_app/presentation/feed/pages/feed_page.dart';
+import 'package:racer_app/presentation/run/controller/map_bloc.dart';
 import 'package:racer_app/presentation/run/pages/map_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -63,7 +64,7 @@ class _HomePageState extends State<HomePage> {
         );
       case 1:
         return BlocProvider(
-          create: (context) => GetIt.instance.get<FeedBloc>(),
+          create: (context) => GetIt.instance.get<MapBloc>(),
           child: MapPage(googleAPiKey: depIn.googleApiKey,),
         );
       case 2:

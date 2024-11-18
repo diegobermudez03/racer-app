@@ -26,4 +26,8 @@ class AppStrings{
   static const seeUser = "Ver usuario";
   static const chatWithUser = "Chatear";
   static const start = "Comenzar";
+  static const unableToTakePictureCantStartRoute = "No se pudo tomar la foto, no es posible iniciar la ruta";
+  static const unableToTakePictureCantEndRoute = "No se pudo tomar la foto, no es posible terminar la ruta";
+  static const inProgress = "En progreso";
+  static const haventReachedDestiny = "No has llegado a la meta";
 }
