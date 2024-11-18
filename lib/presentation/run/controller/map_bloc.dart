@@ -28,13 +28,13 @@ class MapBloc extends Cubit<MapState>{
   void endRoute(File endingPicture, double endingLat, double endingLon, DateTime endingTime)async{
     final auxState = state as MapRouteInProgress;
     final result = _calculatePoints(endingTime);
-    final startPicture = await (state as MapRouteInProgress).initialPic.readAsBytes();
+    final startPicture = await auxState.initialPic.readAsBytes();
     final endPicture = await endingPicture.readAsBytes();
-    final totalSec = endingTime.difference((state as MapRouteInProgress).startingDate).inSeconds;
+    final totalSec = endingTime.difference(auxState.startingDate).inSeconds;
     final response = await repo.saveRoute(
-      (state as MapRouteInProgress).initialLat, 
-      (state as MapRouteInProgress).initiaLon,
-      (state as MapRouteInProgress).startingDate, 
+      auxState.initialLat, 
+      auxState.initiaLon,
+      auxState.startingDate, 
       endingTime, 
       endingLat, 
       endingLon, 

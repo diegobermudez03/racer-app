@@ -4,6 +4,8 @@ import 'package:racer_app/core/app_strings.dart';
 import 'package:racer_app/core/custom_navigator.dart';
 import 'package:racer_app/presentation/auth/controller/auth_blocs.dart';
 import 'package:racer_app/presentation/auth/controller/auth_states.dart';
+import 'package:racer_app/presentation/auth/widgets/custom_button.dart';
+import 'package:racer_app/presentation/auth/widgets/custom_text_field.dart';
 import 'package:racer_app/utilities/custom_dialogs.dart';
 
 
@@ -37,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
               builder: (context, state) {
                 return switch(state){
                   LoginLoadingState()=>Center(child: CircularProgressIndicator(),),
-                  LoginState()=>_printLoginPage(provider)
+                  LoginState()=>_printLoginPage(provider, context)
                 };
               },
             ),
@@ -47,28 +49,34 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Column _printLoginPage(LoginBloc provider){
-    return Column(
-      children: [
-        TextField(
-          decoration: InputDecoration.collapsed(hintText: AppStrings.emailHint),
-          onChanged: (_) => _checkFields(),
-          controller: emailController,
-        ),
-        TextField(
-          decoration: InputDecoration.collapsed(hintText: AppStrings.passwordHint),
-          onChanged: (_) => _checkFields(),
-          controller: passwordController,
-        ),
-        TextButton(
-            onPressed: ableToLogin ? () => _loginHandler(provider) : null, child: Text(AppStrings.login)),
-        TextButton(
-          onPressed: () =>CustomNavigator.goToRegisterPage(context), 
-          child: Text(AppStrings.register)
-        ),
-      ],
-    );
-  }
+  Column _printLoginPage(LoginBloc provider, BuildContext context) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      CustomTextField(
+        labelText: AppStrings.emailHint,
+        controller: emailController,
+        onChanged: (_) => _checkFields(),
+      ),
+      CustomTextField(
+        labelText: AppStrings.passwordHint,
+        controller: passwordController,
+        obscureText: true,
+        onChanged: (_) => _checkFields(),
+      ),
+      CustomButton(
+        text: AppStrings.login,
+        onPressed: ableToLogin ? () => _loginHandler(provider) : null,
+      ),
+      CustomButton(
+        text: AppStrings.register,
+        onPressed: () => CustomNavigator.goToRegisterPage(context),
+        isPrimary: false,
+      ),
+    ],
+  );
+}
 
   void _checkFields() {
     if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {

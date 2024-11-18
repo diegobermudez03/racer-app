@@ -1,4 +1,5 @@
 class AppStrings{
+  static const registerTitle = "Unete";
   static const appName = "Racer";
   static const emailHint = "Ingresa tu email";
   static const passwordHint = "Ingresa tu contraseña";
@@ -9,7 +10,7 @@ class AppStrings{
   static const camerPermissionDenied = "Se negaron los permisos a camara";
   static const fullNameHint = "Ingrese su nombre completo";
   static const userNameHint = "Ingrese un apodo";
-  static const ageHint = "Ingrese su edad";
+  static const ageHint = "edad";
   static const successRegistering = "Se ha registrado correctamente";
   static const profile = "Perfil";
   static const run = "Correr";
@@ -20,8 +21,8 @@ class AppStrings{
   static const events = "Eventos";
   static const searchForSomeone  ="Busque a alguien";
   static const searchForEvent = "Busque un evento";
-  static const heightHint = "Ingrese su altura";
-  static const weightHint = "Ingrese su peso";
+  static const heightHint = "altura";
+  static const weightHint = "peso";
   static const noResults = "No hay resultados";
   static const seeUser = "Ver usuario";
   static const chatWithUser = "Chatear";
@@ -32,4 +33,6 @@ class AppStrings{
   static const haventReachedDestiny = "No has llegado a la meta";
   static const routeSavedAndPublished = "La ruta ha sido guardada y publicada";
   static const endRoute = "Terminar";
+  static const success = "Exito";
+  static const failure = "Algo salió mal";
 }
