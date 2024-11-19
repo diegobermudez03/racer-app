@@ -46,9 +46,9 @@ class RoutePost extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.1),
-            blurRadius: 8,
-            offset: Offset(0, 4),
+            color: colorScheme.shadow.withOpacity(0.5),
+            blurRadius: 4,
+            offset: Offset(0, 2),
           ),
         ],
       ),

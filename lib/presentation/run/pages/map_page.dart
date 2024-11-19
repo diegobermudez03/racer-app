@@ -50,22 +50,103 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = BlocProvider.of<MapBloc>(context);
-    return Scaffold(
-      appBar: AppBar(title: Text(AppStrings.run)),
-      body: BlocListener<MapBloc, MapState>(
-        listener: (context, state) {
-          if(state is MapRouteEnded){
-            CustomDialogs.showSuccessDialog(context, AppStrings.routeSavedAndPublished);
-          }
-          if(state is MapRouteFailure){
-            CustomDialogs.showFailureDialog(context, state.message);
-          }
-        },
-        child: Column(
-          children: [
-            !_routeInProgress
-                ? GooglePlacesAutoCompleteTextFormField(
+  final provider = BlocProvider.of<MapBloc>(context);
+  final colorScheme = Theme.of(context).colorScheme;
+
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(AppStrings.run),
+      backgroundColor: colorScheme.primaryContainer,
+      foregroundColor: colorScheme.onPrimaryContainer,
+    ),
+    body: BlocListener<MapBloc, MapState>(
+      listener: (context, state) {
+        if (state is MapRouteEnded) {
+          CustomDialogs.showSuccessDialog(context, AppStrings.routeSavedAndPublished);
+        }
+        if (state is MapRouteFailure) {
+          CustomDialogs.showFailureDialog(context, state.message);
+        }
+      },
+      child: Stack(
+        children: [
+          // Map Display
+          BlocBuilder<MapBloc, MapState>(
+            builder: (context, state) {
+              final Set<Polyline> routes = {};
+              if (state is MapRouteRetrieved) {
+                route = Polyline(
+                    polylineId: PolylineId('1'),
+                    color: Colors.red,
+                    width: 5,
+                    points: _decodePolyline(state.route));
+                routes.add(route!);
+              } else if (route != null) {
+                routes.add(route!);
+              }
+              if (state is MapRouteFailure || state is MapRouteEnded) {
+                routes.clear();
+                _markers.clear();
+                destination = null;
+                _routeInProgress = false;
+              }
+              return GoogleMap(
+                onMapCreated: (controller) {
+                  _mapController = controller;
+                  _getUserLocation(provider);
+                },
+                initialCameraPosition: CameraPosition(
+                  target: _currentUserLocation,
+                  zoom: 14,
+                ),
+                myLocationEnabled: true,
+                markers: _markers,
+                polylines: routes,
+                onLongPress: !_routeInProgress ? (loc) => _selectDestintation(loc, context) : null,
+              );
+            },
+          ),
+          // Button Positioned on Top of the Map
+          Positioned(
+            bottom: 20,
+            left: 20,
+            right: 20,
+            child: ElevatedButton(
+              onPressed: _routeInProgress
+                  ? (() => _endRoute(context))
+                  : (destination != null ? () => _startRunning(context) : null),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _routeInProgress ? colorScheme.errorContainer : colorScheme.primary,
+                foregroundColor: _routeInProgress ? colorScheme.onErrorContainer : colorScheme.onPrimary,
+                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+              ),
+              child: Text(
+                !_routeInProgress ? AppStrings.start : AppStrings.endRoute,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+          // Search Input or In-Progress Status (can also be placed on top)
+          if (!_routeInProgress)
+            Positioned(
+              top: 16,
+              left: 16,
+              right: 16,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: colorScheme.surfaceContainerLowest,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: colorScheme.outlineVariant),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: GooglePlacesAutoCompleteTextFormField(
                     textEditingController: searchController,
                     googleAPIKey: widget.googleAPiKey,
                     countries: ['col'],
@@ -78,56 +159,35 @@ class _MapPageState extends State<MapPage> {
                       searchController.text = prediction.description ?? '';
                       searchController.selection =
                           TextSelection.fromPosition(TextPosition(offset: prediction.description?.length ?? 0));
-                    })
-                : Text(AppStrings.inProgress),
-            Expanded(
-              child: BlocBuilder<MapBloc, MapState>(
-                builder: (context, state) {
-                  final Set<Polyline> routes = {};
-                  if (state is MapRouteRetrieved) {
-                    route = Polyline(
-                        polylineId: PolylineId('1'),
-                        color: Colors.red[200]!,
-                        width: 5,
-                        points: _decodePolyline(state.route));
-                    routes.add(route!);
-                  } else if (route != null) {
-                    routes.add(route!);
-                  }
-                  if(state is MapRouteFailure || state is MapRouteEnded){
-                    routes.clear();
-                    _markers.clear();
-                    destination = null;
-                    _routeInProgress = false;
-                  }
-                  return GoogleMap(
-                    onMapCreated: (controller) {
-                      _mapController = controller;
-                      _getUserLocation(provider);
                     },
-                    initialCameraPosition: CameraPosition(
-                      target: _currentUserLocation,
-                      zoom: 14,
-                    ),
-                    myLocationEnabled: true,
-                    markers: _markers,
-                    polylines: routes,
-                    onLongPress: !_routeInProgress ? (loc) => _selectDestintation(loc, context) : null,
-                  );
-                },
+                  ),
+                ),
               ),
             ),
-            ElevatedButton(
-              onPressed: _routeInProgress
-                  ? (() => _endRoute(context))
-                  : (destination != null ? () => _startRunning(context) : null),
-              child: Text( !_routeInProgress ? AppStrings.start : AppStrings.endRoute),
+          if (_routeInProgress)
+            Positioned(
+              top: 16,
+              left: 16,
+              right: 16,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    AppStrings.inProgress,
+                    style: TextStyle(
+                      color: colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ],
-        ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   void _endRoute(BuildContext context) async {
     final distance = Geolocator.distanceBetween(_currentUserLocation.latitude, _currentUserLocation.longitude,

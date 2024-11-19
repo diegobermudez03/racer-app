@@ -20,12 +20,14 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Column(
         children: [
           _printSearchBar(context),
-          ToggleButtons(
-            isSelected: isSelected,
-            onPressed: (index) {
+         _buildToggleButtons(
+            context,
+            isSelected,
+            (index) {
               setState(() {
                 isSelected[index] = true;
                 int other = index == 0 ? 1 : 0;
@@ -33,16 +35,6 @@ class _SearchPageState extends State<SearchPage> {
                 _resetSearch(context);
               });
             },
-            children:const [
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Text(AppStrings.users),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Text(AppStrings.events),
-              ),
-            ],
           ),
           BlocListener<SearchBloc, SearchState>(
             listener: (context, state) {
@@ -103,13 +95,76 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget _printSearchBar(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       width: double.infinity,
-      height: 50,
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: TextField(
-        decoration: const InputDecoration(hintText: AppStrings.searchForSomeone),
         onSubmitted: (value) => _handleSearch(value, context),
+        decoration: InputDecoration(
+          hintText: AppStrings.searchForSomeone,
+          hintStyle: TextStyle(color: colorScheme.onSurfaceVariant),
+          prefixIcon: Icon(
+            Icons.search,
+            color: colorScheme.primary,
+          ),
+          filled: true,
+          fillColor: colorScheme.surfaceContainerLow,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: colorScheme.primary,
+              width: 1.5,
+            ),
+          ),
+          contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        ),
+        style: TextStyle(
+          color: colorScheme.onSurface,
+          fontSize: 16,
+        ),
+      ),
+    );
+  }
+
+
+  Widget _buildToggleButtons(BuildContext context, List<bool> isSelected, Function(int) onToggle) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: ToggleButtons(
+        borderRadius: BorderRadius.circular(12),
+        borderColor: colorScheme.outline,
+        selectedBorderColor: colorScheme.primary,
+        fillColor: colorScheme.primary.withOpacity(0.15),
+        selectedColor: colorScheme.onPrimary,
+        color: colorScheme.onSurface,
+        isSelected: isSelected,
+        onPressed: (index) {
+          onToggle(index);
+        },
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Text(
+              AppStrings.users,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Text(
+              AppStrings.events,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
       ),
     );
   }
