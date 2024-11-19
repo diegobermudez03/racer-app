@@ -68,12 +68,20 @@ class AuthRepoFirebase implements AuthRepo{
         'username': userName,
         'fullname': fullName,
         'age': age,
-        'weight' : weight,
+        'weight' : weight.toDouble(),
         'height' : height
       });
 
       final Reference profilePicRef = storage.ref().child('users/$userId/profile');
       await profilePicRef.putData(profilePic);
+      currentUser = UserEntity(
+          userId,
+          fullName,
+          userName,
+          age,
+          height,
+          weight,
+      );
 
       return const Tuple2(null, true);
     } catch (err) {

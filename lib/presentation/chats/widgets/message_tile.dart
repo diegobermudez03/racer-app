@@ -14,7 +14,7 @@ class MessageTile extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final isUserMessage = !message.othersMessage;
     final alignment = isUserMessage ? MainAxisAlignment.end : MainAxisAlignment.start;
-    final bgColor = isUserMessage ? colorScheme.primaryContainer : colorScheme.surfaceContainerLow;
+    final bgColor = isUserMessage ? Colors.green[400] : Colors.blue[100];
     final textColor = isUserMessage ? colorScheme.onPrimaryContainer : colorScheme.onSurface;
     final margin = isUserMessage
         ? const EdgeInsets.only(left: 70, right: 16, top: 4, bottom: 4)
@@ -46,20 +46,10 @@ class MessageTile extends StatelessWidget {
                   message.content,
                   style: TextStyle(
                     color: textColor,
-                    fontSize: 14,
+                    fontSize: 16,
                   ),
                 ),
                 const SizedBox(height: 4),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    '${message.date.hour.toString().padLeft(2, '0')}:${message.date.minute.toString().padLeft(2, '0')}',
-                    style: TextStyle(
-                      color: textColor.withOpacity(0.7),
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
