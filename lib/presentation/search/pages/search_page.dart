@@ -10,6 +10,11 @@ import 'package:racer_app/presentation/search/widgets/user_tile.dart';
 import 'package:racer_app/utilities/custom_dialogs.dart';
 
 class SearchPage extends StatefulWidget {
+
+  const SearchPage({
+    super.key
+  });
+
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
@@ -151,16 +156,16 @@ class _SearchPageState extends State<SearchPage> {
         onPressed: (index) {
           onToggle(index);
         },
-        children: [
+        children: const [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Text(
               AppStrings.users,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Text(
               AppStrings.events,
               style: TextStyle(fontWeight: FontWeight.bold),

@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 
 class ChatsPage extends StatelessWidget{
 
+  ChatsPage({
+    super.key
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("No implementado"),));
+    return const Scaffold(body: Center(child: Text("No implementado"),));
   }
 }

@@ -25,7 +25,7 @@ class UsersRepoImpl implements UsersRepo{
       final DataSnapshot snapshot = await database.child('users').get();
       final Map<dynamic, dynamic>? usersMap = snapshot.value as Map<dynamic, dynamic>?;
       if (usersMap == null) {
-        return Tuple2("No users found", null);
+        return const Tuple2("No users found", null);
       }
 
       List<Tuple2<UserEntity, String>> matchingUsers = [];
@@ -49,8 +49,7 @@ class UsersRepoImpl implements UsersRepo{
               userData['weight']
             );
             matchingUsers.add(Tuple2(userEntity, downloadUrl));
-          } catch (e) {
-          }
+          } catch (e) {}
         }
       }
       return Tuple2(null, matchingUsers);

@@ -16,7 +16,7 @@ import 'package:racer_app/repository/map_repo.dart';
 import 'package:racer_app/repository/users_repo.dart';
 
 final inst = GetIt.instance;
-final googleApiKey = 'AIzaSyCjonHDvRna94GF2Rjc9d7Uer4RlG8Isr8';
+const googleApiKey = 'AIzaSyCjonHDvRna94GF2Rjc9d7Uer4RlG8Isr8';
 
 Future<void> initDependencies() async{
     //initialize firebase

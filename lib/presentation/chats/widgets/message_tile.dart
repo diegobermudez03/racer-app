@@ -4,7 +4,7 @@ import 'package:racer_app/entities/message_entity.dart';
 class MessageTile extends StatelessWidget {
   final MessageEntity message;
 
-  MessageTile({
+  const MessageTile({
     super.key,
     required this.message,
   });
@@ -12,8 +12,6 @@ class MessageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-
-    // Determine styling based on whether the message is from the user or others
     final isUserMessage = !message.othersMessage;
     final alignment = isUserMessage ? MainAxisAlignment.end : MainAxisAlignment.start;
     final bgColor = isUserMessage ? colorScheme.primaryContainer : colorScheme.surfaceContainerLow;
@@ -44,7 +42,6 @@ class MessageTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Message content
                 Text(
                   message.content,
                   style: TextStyle(
@@ -53,7 +50,6 @@ class MessageTile extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                // Timestamp
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Text(

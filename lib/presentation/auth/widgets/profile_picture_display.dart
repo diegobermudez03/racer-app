@@ -5,7 +5,11 @@ import 'package:racer_app/core/app_strings.dart';
 
 class ProfilePictureDisplay extends StatelessWidget {
   final File? image;
-  const ProfilePictureDisplay({Key? key, this.image}) : super(key: key);
+  
+  const ProfilePictureDisplay({
+    super.key, 
+    this.image
+  });
 
   @override
   Widget build(BuildContext context) {

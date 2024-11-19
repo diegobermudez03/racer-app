@@ -29,7 +29,7 @@ class CustomDialogs {
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
             ),
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -40,30 +40,30 @@ class CustomDialogs {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Colors.green[600],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
         title: Text(
           AppStrings.success,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
+            color: Colors.green[50],
             fontWeight: FontWeight.bold,
           ),
         ),
         content: Text(
           text,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
+            color: Colors.green[50],
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              foregroundColor: Colors.green[50],
             ),
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),

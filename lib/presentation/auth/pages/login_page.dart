@@ -10,6 +10,11 @@ import 'package:racer_app/utilities/custom_dialogs.dart';
 
 
 class LoginPage extends StatefulWidget {
+
+  LoginPage({
+    super.key
+  });
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -25,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Center(
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 50),
+          padding: const EdgeInsets.symmetric(vertical: 50),
           child: BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
               if(state is LoginFailureState){
@@ -38,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
             child: BlocBuilder<LoginBloc, LoginState>(
               builder: (context, state) {
                 return switch(state){
-                  LoginLoadingState()=>Center(child: CircularProgressIndicator(),),
+                  LoginLoadingState()=> const Center(child: CircularProgressIndicator(),),
                   LoginState()=>_printLoginPage(provider, context)
                 };
               },

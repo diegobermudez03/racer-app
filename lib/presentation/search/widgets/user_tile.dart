@@ -9,7 +9,7 @@ class UserTile extends StatelessWidget {
   final void Function() onSeeUserPressed;
   final void Function() onChatPressed;
 
-  UserTile({
+  const UserTile({
     super.key,
     required this.user,
     required this.profilePictureUrl,
@@ -29,9 +29,9 @@ class UserTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.1),
-            blurRadius: 6,
-            offset: Offset(0, 4),
+            color: colorScheme.shadow.withOpacity(0.5),
+            blurRadius: 5,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -75,7 +75,7 @@ class UserTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  user.fullName ?? '',
+                  user.fullName,
                   style: TextStyle(
                     fontSize: 12,
                     color: colorScheme.onSurfaceVariant,

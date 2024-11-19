@@ -13,7 +13,7 @@ import 'package:geolocator/geolocator.dart';
 class MapPage extends StatefulWidget {
   final String googleAPiKey;
 
-  MapPage({super.key, required this.googleAPiKey});
+  const MapPage({super.key, required this.googleAPiKey});
 
   @override
   _MapPageState createState() => _MapPageState();
@@ -55,7 +55,7 @@ class _MapPageState extends State<MapPage> {
 
   return Scaffold(
     appBar: AppBar(
-      title: Text(AppStrings.run),
+      title: const Text(AppStrings.run),
       backgroundColor: colorScheme.primaryContainer,
       foregroundColor: colorScheme.onPrimaryContainer,
     ),
@@ -76,7 +76,7 @@ class _MapPageState extends State<MapPage> {
               final Set<Polyline> routes = {};
               if (state is MapRouteRetrieved) {
                 route = Polyline(
-                    polylineId: PolylineId('1'),
+                    polylineId: const PolylineId('1'),
                     color: Colors.red,
                     width: 5,
                     points: _decodePolyline(state.route));
@@ -125,7 +125,7 @@ class _MapPageState extends State<MapPage> {
               ),
               child: Text(
                 !_routeInProgress ? AppStrings.start : AppStrings.endRoute,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
@@ -149,7 +149,7 @@ class _MapPageState extends State<MapPage> {
                   child: GooglePlacesAutoCompleteTextFormField(
                     textEditingController: searchController,
                     googleAPIKey: widget.googleAPiKey,
-                    countries: ['col'],
+                    countries: const ['col'],
                     isLatLngRequired: true,
                     getPlaceDetailWithLatLng: (prediction) {
                       _selectDestintation(
@@ -193,8 +193,6 @@ class _MapPageState extends State<MapPage> {
     final distance = Geolocator.distanceBetween(_currentUserLocation.latitude, _currentUserLocation.longitude,
         destination!.position.latitude, destination!.position.longitude);
     //if its more than 100 meters, like the diameter, then its not able to end
-    print("holaaaaaaaaa");
-    print(distance);
     if (distance > 100) {
       CustomDialogs.showFailureDialog(context, AppStrings.haventReachedDestiny);
       return;
@@ -225,7 +223,7 @@ class _MapPageState extends State<MapPage> {
   void _selectDestintation(LatLng position, BuildContext context) {
     BlocProvider.of<MapBloc>(context).getRoute(_currentUserLocation, position);
     if (destination == null) {
-      destination = Marker(markerId: MarkerId('1'), position: position, icon: BitmapDescriptor.defaultMarker);
+      destination = Marker(markerId: const MarkerId('1'), position: position, icon: BitmapDescriptor.defaultMarker);
     } else {
       destination = Marker(markerId: destination!.markerId, position: position, icon: BitmapDescriptor.defaultMarker);
     }

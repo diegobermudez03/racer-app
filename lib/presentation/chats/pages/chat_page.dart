@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:racer_app/core/app_strings.dart';
 import 'package:racer_app/entities/message_entity.dart';
 import 'package:racer_app/presentation/chats/controller/chat_bloc.dart';
 import 'package:racer_app/presentation/chats/controller/chat_states.dart';
@@ -88,8 +89,8 @@ class _ChatPageState extends State<ChatPage> {
                               hasContent = val.isNotEmpty;
                             });
                           },
-                          decoration: InputDecoration(
-                            hintText: 'Type a message...',
+                          decoration: const InputDecoration(
+                            hintText: AppStrings.chatHint,
                             border: InputBorder.none,
                           ),
                         ),

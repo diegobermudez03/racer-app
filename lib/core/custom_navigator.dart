@@ -25,7 +25,7 @@ class CustomNavigator{
     Navigator.of(context).push(
       MaterialPageRoute(builder: (con)=> BlocProvider(
           create: (c)=>GetIt.instance.get<RegisterBloc>(),
-          child: RegisterPage(),
+          child: const RegisterPage(),
         )
       )
     );
@@ -45,7 +45,7 @@ class CustomNavigator{
     Navigator.of(context).push(
       MaterialPageRoute(builder: (con)=> BlocProvider(
           create: (c)=>GetIt.instance.get<SearchBloc>(),
-          child: SearchPage(),
+          child: const SearchPage(),
         )
       )
     );

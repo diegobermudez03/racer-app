@@ -14,6 +14,11 @@ import 'package:racer_app/shared/gallery_handler.dart';
 import 'package:racer_app/utilities/custom_dialogs.dart';
 
 class RegisterPage extends StatefulWidget {
+
+  const RegisterPage({
+    super.key
+  });
+
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
@@ -48,7 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: BlocBuilder<RegisterBloc, RegisterState>(
             builder: (context, state) {
               return switch(state){
-                RegisterLoadingState() => CircularProgressIndicator(),
+                RegisterLoadingState() => const Center(child: CircularProgressIndicator()),
                 RegisterState() => _printFormulary(context, provider)
               };
             },
@@ -76,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colorScheme.primaryContainer,
                   foregroundColor: colorScheme.onPrimaryContainer,
-                  shape: CircleBorder(),
+                  shape: const CircleBorder(),
                   padding: const EdgeInsets.all(16),
                 ),
                 child: const Icon(Icons.photo),
@@ -87,7 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colorScheme.primaryContainer,
                   foregroundColor: colorScheme.onPrimaryContainer,
-                  shape: CircleBorder(),
+                  shape: const CircleBorder(),
                   padding: const EdgeInsets.all(16),
                 ),
                 child: const Icon(Icons.camera_alt),
@@ -136,7 +141,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: heightController,
                     onChanged: (_) => _checkFields(),
                     horizontalPadding: 2,
-                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     formatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))],
                   ),
                 ),
@@ -146,7 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: weightController,
                     onChanged: (_) => _checkFields(),
                     horizontalPadding: 2,
-                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     formatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))],
                   ),
                 ),

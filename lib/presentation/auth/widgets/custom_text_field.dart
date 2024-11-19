@@ -11,7 +11,7 @@ class CustomTextField extends StatelessWidget {
   final double horizontalPadding;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.labelText,
     required this.controller,
     this.obscureText = false,
@@ -19,7 +19,7 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.formatters,
     this.horizontalPadding = 24.0
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

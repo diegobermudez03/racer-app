@@ -12,7 +12,7 @@ class RoutePost extends StatelessWidget {
   final int seconds;
   final double calories;
 
-  RoutePost({
+  const RoutePost({
     super.key,
     required this.userName,
     required this.initialPicUrl,
@@ -49,7 +49,7 @@ class RoutePost extends StatelessWidget {
           BoxShadow(
             color: colorScheme.shadow.withOpacity(0.5),
             blurRadius: 4,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),

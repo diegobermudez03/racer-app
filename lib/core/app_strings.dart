@@ -40,4 +40,5 @@ class AppStrings{
   static const distance = "Distancia";
   static const duration = "Duracion";
   static const caloriesBurned = 'Calorias quemadas';
+  static const chatHint = "Esribe algo";
 }

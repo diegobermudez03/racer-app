@@ -6,11 +6,11 @@ class CustomButton extends StatelessWidget {
   final bool isPrimary;
 
   const CustomButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.isPrimary = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class CustomButton extends StatelessWidget {
               ),
               child: Text(
                 text,
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
               ),
             )
           : TextButton(
@@ -40,7 +40,7 @@ class CustomButton extends StatelessWidget {
               ),
               child: Text(
                 text,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16.0,
                   decoration: TextDecoration.underline,
                 ),

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -92,7 +91,7 @@ class MapRepoImpl implements MapRepo{
       };
       await newRouteRef.set(routeData);
 
-      return Tuple2(null, null);
+      return const Tuple2(null, null);
     } catch (e) {
       return Tuple2(e.toString(), null);
     }
@@ -111,7 +110,7 @@ class MapRepoImpl implements MapRepo{
       }
 
       if (snapshot.value == null) {
-        return Tuple2(null, []);
+        return const Tuple2(null, []);
       }
       final List<RouteEntity> routes = [];
       final Map<dynamic, dynamic> routesData =snapshot.value as Map<dynamic, dynamic>;
@@ -140,8 +139,6 @@ class MapRepoImpl implements MapRepo{
 
       return Tuple2(null, routes);
     } catch (e) {
-      print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-      print(e);
       return Tuple2(e.toString(), null);
     }
   }

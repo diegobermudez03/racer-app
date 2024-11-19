@@ -36,10 +36,7 @@ class ChatsRepoImpl implements ChatsRepo{
             }
           }
         }
-      }catch(e){
-        print("errrrrooooooooooooooooooooooooooor");
-        print(e.toString());
-      }
+      }catch(e){}
 
       DatabaseReference newChatRef = database.child('chats').push();
       final chatId = newChatRef.key!;
@@ -91,7 +88,7 @@ class ChatsRepoImpl implements ChatsRepo{
         'content': content,
       });
 
-      return Tuple2(null, null);
+      return const Tuple2(null, null);
     }catch(e){
       return Tuple2(e.toString(), null);
     }

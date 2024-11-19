@@ -4,12 +4,17 @@ import 'package:racer_app/core/custom_navigator.dart';
 import 'package:racer_app/presentation/feed/pages/feed_page.dart';
 
 class MainFeedPage extends StatelessWidget {
+
+  const MainFeedPage({
+    super.key
+  });
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         _printHeader(context),
-        Expanded(child: FeedPage()),
+        const Expanded(child: FeedPage()),
       ],
     );
   }
@@ -73,7 +78,7 @@ class MainFeedPage extends StatelessWidget {
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
               blurRadius: 6,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
             ),
           ],
         ),
