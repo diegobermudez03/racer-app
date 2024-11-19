@@ -11,5 +11,14 @@ class FeedBloc extends Cubit<FeedState>{
 
   void gerRoutes(String? userId) async{
     await Future.delayed(Duration.zero);
+    emit(FeedLoadingState());
+
+    final response = await repo.getRoutes(userId);
+
+    if(response.value1 != null){
+      emit(FeedFailureState(response.value1!));
+      return;
+    }
+    emit(FeedRetrievedState(response.value2!));
   }
 }

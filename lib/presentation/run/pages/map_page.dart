@@ -132,10 +132,10 @@ class _MapPageState extends State<MapPage> {
   void _endRoute(BuildContext context) async {
     final distance = Geolocator.distanceBetween(_currentUserLocation.latitude, _currentUserLocation.longitude,
         destination!.position.latitude, destination!.position.longitude);
-    //if its more than 50 meters, like the diameter, then its not able to end
+    //if its more than 100 meters, like the diameter, then its not able to end
     print("holaaaaaaaaa");
     print(distance);
-    if (distance > 50) {
+    if (distance > 100) {
       CustomDialogs.showFailureDialog(context, AppStrings.haventReachedDestiny);
       return;
     }
