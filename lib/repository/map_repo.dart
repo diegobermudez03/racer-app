@@ -5,24 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:racer_app/entities/route_entity.dart';
+import 'package:racer_app/repository/auth_repo.dart';
 
 abstract class MapRepo{
    Future<Tuple2<String?, String?>> searchRoute(double lat1, double lon1, double lat2, double lon2);
-   Future<Tuple2<String?, void>> saveRoute(
-    double initialLat,
-    double initialLon,
-    DateTime initialDate,
-    DateTime endingDate,
-    double endingLat,
-    double endingLon,
-    Uint8List initialPic,
-    Uint8List endingPic,
-    double avgSpeed,
-    double totalDistance,
-    double calories,
-    int seconds,
-    List<double> distances
-   );
+   Future<Tuple2<String?, void>> saveRoute(RouteEntity route);
 
 }
 
@@ -66,40 +54,36 @@ class MapRepoImpl implements MapRepo{
   }
   
   @override
-  Future<Tuple2<String?, void>> saveRoute(
-    double initialLat, double initialLon, DateTime initialDate, 
-    DateTime endingDate, double endingLat, double endingLon, 
-    Uint8List initialPic, Uint8List endingPic,
-    double avgSpeed, double totalDistance, 
-    double calories, int seconds, List<double> distances) async
+  Future<Tuple2<String?, void>> saveRoute(RouteEntity route) async
   {
     try{
       final userId = auth.currentUser!.uid;
       DatabaseReference newRouteRef = database.child('routes').push();
       final String routeId = newRouteRef.key!;
 
-      final String initialDateString = initialDate.toIso8601String();
-      final String endingDateString = endingDate.toIso8601String();
+      final String initialDateString = route.initialDate.toIso8601String();
+      final String endingDateString = route.endingDate.toIso8601String();
 
       final String initialPicPath = 'routes/$routeId/initialpic';
       final String endingPicPath = 'routes/$routeId/endingpic';
 
-      await storage.ref(initialPicPath).putData(initialPic);
+      await storage.ref(initialPicPath).putData(route.initialPic);
 
-      await storage.ref(endingPicPath).putData(endingPic);
+      await storage.ref(endingPicPath).putData(route.endingPic);
 
       final Map<String, dynamic> routeData = {
-        'initialLat': initialLat,
-        'initialLon': initialLon,
+        'username': AuthRepoFirebase.currentUser?.userName,
+        'initialLat': route.initialLat,
+        'initialLon': route.initialLon,
         'initialDate': initialDateString,
         'endingDate': endingDateString,
-        'endingLat': endingLat,
-        'endingLon': endingLon,
-        'avgSpeed': avgSpeed,
-        'totalDistance': totalDistance,
-        'calories': calories,
-        'seconds': seconds,
-        'distances': distances,
+        'endingLat': route.endingLat,
+        'endingLon': route.endingLon,
+        'avgSpeed': route.avgSpeed,
+        'totalDistance': route.totalDistance,
+        'calories': route.calories,
+        'seconds': route.seconds,
+        'distances': route.distances,
         'publisher': userId,
       };
       await newRouteRef.set(routeData);

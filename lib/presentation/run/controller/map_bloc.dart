@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:racer_app/entities/route_entity.dart';
 import 'package:racer_app/presentation/run/controller/map_states.dart';
 import 'package:racer_app/repository/map_repo.dart';
 
@@ -32,19 +33,21 @@ class MapBloc extends Cubit<MapState>{
     final endPicture = await endingPicture.readAsBytes();
     final totalSec = endingTime.difference(auxState.startingDate).inSeconds;
     final response = await repo.saveRoute(
-      auxState.initialLat, 
-      auxState.initiaLon,
-      auxState.startingDate, 
-      endingTime, 
-      endingLat, 
-      endingLon, 
-      startPicture, 
-      endPicture,
-      result.value2/totalSec, 
-      result.value2, 
-      (result.value2/totalSec)*(totalSec/60), 
-      totalSec,
-      result.value1
+      RouteEntity(
+        auxState.initialLat, 
+        auxState.initiaLon,
+        auxState.startingDate, 
+        endingTime, 
+        endingLat, 
+        endingLon, 
+        startPicture, 
+        endPicture,
+        result.value2/totalSec, 
+        result.value2, 
+        (result.value2/totalSec)*(totalSec/60), 
+        totalSec,
+        result.value1
+      )
     );
     if(response.value1 != null){
       emit(MapRouteFailure(response.value1!));

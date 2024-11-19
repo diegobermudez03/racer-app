@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:racer_app/entities/user_entity.dart';
 
 abstract class AuthRepo{
   Future<Tuple2<String?, bool?>> login(String email, String password);
@@ -17,6 +18,8 @@ class AuthRepoFirebase implements AuthRepo{
   final DatabaseReference database;
   final FirebaseStorage storage;
 
+  static UserEntity? currentUser;
+
   AuthRepoFirebase(
     this.firebase,
     this.database,
@@ -24,11 +27,29 @@ class AuthRepoFirebase implements AuthRepo{
   );
 
   @override
-  Future<Tuple2<String?, bool?>> login(String email, String password)async{
-    try{
-      await firebase.signInWithEmailAndPassword(email: email, password: password);
+  Future<Tuple2<String?, bool?>> login(String email, String password) async {
+    try {
+      final UserCredential userCredential =await firebase.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final String userId = userCredential.user!.uid;
+
+      final DataSnapshot snapshot = await database.child('users/$userId').get();
+
+      if (snapshot.value != null) {
+        final Map<String, dynamic> userData =Map<String, dynamic>.from(snapshot.value as Map);
+        currentUser = UserEntity(
+          userId,
+          userData['fullname'] as String,
+          userData['username'] as String,
+          userData['age'] as int,
+          userData['height'] as double,
+          userData['weight'] as double,
+        );
+      }
       return const Tuple2(null, true);
-    }catch(err){
+    } catch (err) {
       return Tuple2(err.toString(), null);
     }
   }

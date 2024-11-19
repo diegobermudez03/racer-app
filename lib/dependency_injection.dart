@@ -52,7 +52,7 @@ Future<void> initDependencies() async{
     //register blocs
     inst.registerFactory<LoginBloc>(()=>LoginBloc(inst.get()));
     inst.registerFactory<RegisterBloc>(()=>RegisterBloc(inst.get()));
-    inst.registerFactory<FeedBloc>(()=>FeedBloc());
+    inst.registerFactory<FeedBloc>(()=>FeedBloc(inst.get()));
     inst.registerFactory<ChatsBloc>(()=>ChatsBloc());
     inst.registerFactory<SearchBloc>(()=>SearchBloc(inst.get()));
     inst.registerFactory<ChatBloc>(()=>ChatBloc(inst.get()));

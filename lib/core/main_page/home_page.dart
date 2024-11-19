@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:racer_app/core/app_strings.dart';
 import 'package:racer_app/dependency_injection.dart' as depIn;
 import 'package:racer_app/presentation/feed/controller/feed_bloc.dart';
-import 'package:racer_app/presentation/feed/pages/feed_page.dart';
+import 'package:racer_app/presentation/feed/pages/main_feed_page.dart';
 import 'package:racer_app/presentation/run/controller/map_bloc.dart';
 import 'package:racer_app/presentation/run/pages/map_page.dart';
 
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
       case 0:
         return BlocProvider(
           create: (context) => GetIt.instance.get<FeedBloc>(),
-          child: FeedPage(),
+          child: MainFeedPage(),
         );
       case 1:
         return BlocProvider(
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
       case 2:
         return BlocProvider(
           create: (context) => GetIt.instance.get<FeedBloc>(),
-          child: FeedPage(),
+          child: MainFeedPage(),
         );
       default:
         return Container();
