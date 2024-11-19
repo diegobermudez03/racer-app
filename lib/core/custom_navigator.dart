@@ -13,7 +13,9 @@ import 'package:racer_app/presentation/search/pages/search_page.dart';
 
 class CustomNavigator{
   static void goToHomepage(BuildContext context){
-    Navigator.of(context).pop();
+    while(Navigator.of(context).canPop()){
+      Navigator.of(context).pop();
+    }
     Navigator.of(context).push(
       MaterialPageRoute(builder: (con)=> HomePage())
     ); 

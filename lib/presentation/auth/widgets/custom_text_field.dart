@@ -38,7 +38,7 @@ class CustomTextField extends StatelessWidget {
             color: colorScheme.onSurfaceVariant,
           ),
           filled: true,
-          fillColor: colorScheme.surfaceContainerLow,
+          fillColor: colorScheme.surfaceContainerHighest,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,

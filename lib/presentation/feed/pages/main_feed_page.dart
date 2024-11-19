@@ -9,7 +9,7 @@ class MainFeedPage extends StatelessWidget {
     return Column(
       children: [
         _printHeader(context),
-        FeedPage(),
+        Expanded(child: FeedPage()),
       ],
     );
   }

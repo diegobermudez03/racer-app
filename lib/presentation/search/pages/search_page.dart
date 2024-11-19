@@ -62,19 +62,21 @@ class _SearchPageState extends State<SearchPage> {
         child: Text(AppStrings.noResults),
       );
     }
-    return Column(
-      children: results.map((tple){
-        if(tple.value1 is UserEntity){
-          final us = tple.value1 as UserEntity;
-          return UserTile(
-            user: us, 
-            profilePictureUrl: tple.value2, 
-            onSeeUserPressed: ()=>_seeUser(context), 
-            onChatPressed: ()=>_seeChatWithUser(context, us.id, tple.value2)
-          );
-        }
-        return const SizedBox();
-      }).toList(),
+    return SingleChildScrollView(
+      child: Column(
+        children: results.map((tple){
+          if(tple.value1 is UserEntity){
+            final us = tple.value1 as UserEntity;
+            return UserTile(
+              user: us, 
+              profilePictureUrl: tple.value2, 
+              onSeeUserPressed: ()=>_seeUser(context), 
+              onChatPressed: ()=>_seeChatWithUser(context, us.id, tple.value2)
+            );
+          }
+          return const SizedBox();
+        }).toList(),
+      ),
     );
   }
 
@@ -110,7 +112,7 @@ class _SearchPageState extends State<SearchPage> {
             color: colorScheme.primary,
           ),
           filled: true,
-          fillColor: colorScheme.surfaceContainerLow,
+          fillColor: colorScheme.surfaceContainerHighest,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,
@@ -143,7 +145,7 @@ class _SearchPageState extends State<SearchPage> {
         borderColor: colorScheme.outline,
         selectedBorderColor: colorScheme.primary,
         fillColor: colorScheme.primary.withOpacity(0.15),
-        selectedColor: colorScheme.onPrimary,
+        selectedColor: colorScheme.primary,
         color: colorScheme.onSurface,
         isSelected: isSelected,
         onPressed: (index) {

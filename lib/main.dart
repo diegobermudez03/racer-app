@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         title: 'Racer app',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: MaterialTheme.lightScheme(),
+          colorScheme: MaterialTheme.lightMediumContrastScheme(),
           useMaterial3: true,
         ),
         home: BlocProvider(

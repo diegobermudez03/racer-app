@@ -77,7 +77,7 @@ class MapBloc extends Cubit<MapState>{
     for(int i = 1; i <= 10; i++){
       distance = 0;
       for(int j = index; index < points.length; index++){
-        distance += Geolocator.distanceBetween(prevLat, prevLon, points[j].value2.value1, points[j].value2.value1);
+        distance += Geolocator.distanceBetween(prevLat, prevLon, points[j].value2.value1, points[j].value2.value2);
         totalDistance += distance;
         if(points[j].value1.isAfter(startingTime.add(Duration(seconds: seconds*i)))){
           index = j+1;

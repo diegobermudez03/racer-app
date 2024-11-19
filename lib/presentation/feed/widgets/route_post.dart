@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:racer_app/core/app_strings.dart';
 
 class RoutePost extends StatelessWidget {
   final String userName;
@@ -25,8 +26,8 @@ class RoutePost extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+      'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
     ];
     final month = months[date.month - 1];
     final day = date.day;
@@ -42,7 +43,7 @@ class RoutePost extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       decoration: BoxDecoration(
-        color: colorScheme.surface,
+        color: colorScheme.inversePrimary,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -136,7 +137,7 @@ class RoutePost extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Route Details',
+                  AppStrings.routeDetails,
                   style: TextStyle(
                     color: colorScheme.primary,
                     fontSize: 14,
@@ -147,26 +148,26 @@ class RoutePost extends StatelessWidget {
                 _buildDetailItem(
                   context,
                   icon: Icons.speed,
-                  label: 'Average Speed',
-                  value: '${avgSpeed.toStringAsFixed(1)} km/h',
+                  label: AppStrings.avarageSpeed,
+                  value: '${avgSpeed.toStringAsFixed(1)} m/s',
                 ),
                 _buildDetailItem(
                   context,
                   icon: Icons.directions_run,
-                  label: 'Distance',
-                  value: '${distance.toStringAsFixed(2)} km',
+                  label: AppStrings.distance,
+                  value: '${distance.toStringAsFixed(2)} m',
                 ),
                 _buildDetailItem(
                   context,
                   icon: Icons.timer,
-                  label: 'Duration',
+                  label: AppStrings.duration,
                   value: '${(seconds ~/ 60)} min',
                 ),
                 _buildDetailItem(
                   context,
                   icon: Icons.local_fire_department,
-                  label: 'Calories Burned',
-                  value: '${calories.toStringAsFixed(1)} kcal',
+                  label: AppStrings.caloriesBurned,
+                  value: '${calories.toStringAsFixed(1)} cal',
                 ),
               ],
             ),

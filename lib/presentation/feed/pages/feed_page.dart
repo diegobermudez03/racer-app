@@ -9,34 +9,34 @@ class FeedPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FeedBloc, FeedState>(builder: (context, state){
-      if(state is FeedInitialState){
-        BlocProvider.of<FeedBloc>(context).gerRoutes(null);
-      }
-      return switch(state){
-        FeedFailureState(message: final msg) => Center(child: Text(msg),),
-        FeedLoadingState()=> Center(child: CircularProgressIndicator(),),
-        FeedRetrievedState(routes: final rts) => _printFeed(rts),
-        FeedState() => SizedBox()
-      };
-    });
+    return SingleChildScrollView(
+      child: BlocBuilder<FeedBloc, FeedState>(builder: (context, state){
+        if(state is FeedInitialState){
+          BlocProvider.of<FeedBloc>(context).gerRoutes(null);
+        }
+        return switch(state){
+          FeedFailureState(message: final msg) => Center(child: Text(msg),),
+          FeedLoadingState()=> Center(child: CircularProgressIndicator(),),
+          FeedRetrievedState(routes: final rts) => _printFeed(rts),
+          FeedState() => SizedBox()
+        };
+      }),
+    );
   }
 
 
   Widget _printFeed(List<RouteEntity> routes){
-    return SingleChildScrollView(
-      child: Column(
-        children: routes.map((r)=>RoutePost(
-          userName: r.userName!, 
-          initialPicUrl: r.initialPicUrl!, 
-          finalPicUrl: r.endingPicUrl!, 
-          endingDate: r.endingDate, 
-          avgSpeed: r.avgSpeed, 
-          distance: r.totalDistance, 
-          seconds: r.seconds, 
-          calories: r.calories)
-        ).toList(),
-      ),
+    return Column(
+      children: routes.map((r)=>RoutePost(
+        userName: r.userName!, 
+        initialPicUrl: r.initialPicUrl!, 
+        finalPicUrl: r.endingPicUrl!, 
+        endingDate: r.endingDate, 
+        avgSpeed: r.avgSpeed, 
+        distance: r.totalDistance, 
+        seconds: r.seconds, 
+        calories: r.calories)
+      ).toList(),
     );
   }
 }

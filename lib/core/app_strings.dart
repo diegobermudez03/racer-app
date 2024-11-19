@@ -35,4 +35,9 @@ class AppStrings{
   static const endRoute = "Terminar";
   static const success = "Exito";
   static const failure = "Algo salió mal";
+  static const avarageSpeed = 'Velocidad promedio';
+  static const routeDetails = "Detalles de la ruta";
+  static const distance = "Distancia";
+  static const duration = "Duracion";
+  static const caloriesBurned = 'Calorias quemadas';
 }

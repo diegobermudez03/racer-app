@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:racer_app/entities/user_entity.dart';
+import 'package:racer_app/repository/auth_repo.dart';
 
 abstract class UsersRepo{
   Future<Tuple2<String?, List<Tuple2<UserEntity, String>>?>> searchUsers(String text);
@@ -34,7 +35,7 @@ class UsersRepoImpl implements UsersRepo{
         final userData = entry.value as Map<dynamic, dynamic>;
         final userName = userData['username'] as String? ?? '';
 
-        if (userName.toLowerCase().contains(text.toLowerCase())) {
+        if (userName.toLowerCase().contains(text.toLowerCase()) && userId != AuthRepoFirebase.currentUser!.id) {
           try {
             final ref = storage.ref().child('users/$userId/profile');
             final String downloadUrl = await ref.getDownloadURL();
